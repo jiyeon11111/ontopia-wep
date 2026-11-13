@@ -86,3 +86,7 @@ ontopia-web/
 - `assets/stamps/`: 여권 스탬프 4종
 - `assets/scenes/`: 단계별 장면 그림 (빈 화면, 학교, 경로 지도, 패키지 카드, 엽서, 완료)
 경로는 `js/config.js`의 `ASSETS`에서 바꾼다. 색·모서리·그림자는 `css/tokens.css`.
+
+## 글꼴
+학교안심 둥근미소 (R·B). `assets/fonts/`에 WOFF로 넣고 `css/tokens.css`의 `@font-face`에서 불러온다.
+굵기 549 이하는 R, 550 이상은 B로 보인다. 글꼴을 바꾸려면 `--font-body`, `--font-display`만 고친다.

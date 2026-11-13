@@ -1,3 +1,7 @@
+/* 학교안심 둥근미소 (R: 보통, B: 굵게) */
+@font-face { font-family: "Dunggeunmiso"; src: url(../assets/fonts/Dunggeunmiso-R.woff) format("woff"); font-weight: 100 549; font-display: swap; }
+@font-face { font-family: "Dunggeunmiso"; src: url(../assets/fonts/Dunggeunmiso-B.woff) format("woff"); font-weight: 550 900; font-display: swap; }
+
 /*
   디자인 토큰. 색·글꼴·크기·모서리·그림자는 여기서만 바꾼다.
   값은 GPT 화면 시안(design-reference/)에서 뽑았다.
@@ -45,8 +49,8 @@
   --color-wait-soft: #fbefcf;
 
   /* 글꼴 */
-  --font-body: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
-  --font-display: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-body: "Dunggeunmiso", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-display: "Dunggeunmiso", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --text-xs: 12px;
   --text-sm: 14px;
   --text-md: 16px;
