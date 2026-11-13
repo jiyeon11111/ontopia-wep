@@ -16,8 +16,11 @@ const state = {
 };
 
 // ---------- 그림 ----------
+const AVATAR_ORDER = ['dali', 'shasha', 'aengdu', 'kwati', 'hoi'];
+const assetAt = path => path.split('.').reduce((o, k) => o && o[k], ASSETS);
+
 function applyAssets(root = document) {
-  root.querySelectorAll('[data-asset]').forEach(img => { img.src = img.dataset.asset.split('.').reduce((o, k) => o[k], ASSETS); });
+  root.querySelectorAll('[data-asset]').forEach(img => { img.src = assetAt(img.dataset.asset); });
   root.querySelectorAll('[data-character]').forEach(img => {
     const c = ASSETS.characters[img.dataset.character];
     img.src = c.src;
@@ -29,11 +32,19 @@ function applyAssets(root = document) {
 const EMPTY_HTML = `
   <div class="empty">
     <img src="${ASSETS.scenes.empty}" alt="">
-    <div><b>학교를 고르면 발송 방법이 여기에 나와요</b><p class="muted">우체국까지 거리와 학교 위치(도시·농어촌)를 보고 상자 우체통 또는 단체 모바일 엽서를 골라 드려요.</p></div>
+    <div><b>학교를 고르면 보내는 길이 여기에 나와요</b><p>우체국까지 거리와 학교 위치(도시·농어촌)를 보고 상자 우체통 또는 단체 모바일 엽서를 골라 드려요.</p></div>
   </div>`;
 
 // ---------- 단계 이동 ----------
+let current = 1;
+const NAV = {
+  2: { back: 1, next: '다음: 발송 준비', action: () => go(3) },
+  3: { back: 2, next: '신청하기', action: () => submit() },
+  4: { back: 3, next: '다른 반 신청하기', action: () => restart() },
+};
+
 function go(n) {
+  current = n;
   [1, 2, 3, 4].forEach(i => { $('step-' + i).hidden = i !== n; });
   document.querySelectorAll('#progress li').forEach(li => {
     const s = +li.dataset.step;
@@ -41,11 +52,16 @@ function go(n) {
     li.classList.toggle('is-done', done);
     if (s === n && !done) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
   });
+  const nav = NAV[n];
+  $('nav-row').hidden = !nav;
+  if (nav) {
+    $('nav-next-label').textContent = nav.next;
+    $('nav-next').classList.toggle('btn--done', n === 3);
+  }
   if (n === 2) renderPackage();
   if (n === 3) renderSend();
   if (n === 4) renderSummary();
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  $('step-' + n).querySelector('h1, h2').focus?.();
 }
 
 // ---------- 학교 데이터 ----------
@@ -71,8 +87,8 @@ function setupSearch() {
   const close = () => { list.hidden = true; q.setAttribute('aria-expanded', 'false'); cursor = -1; };
   const draw = () => {
     list.innerHTML = hits.length
-      ? hits.map((s, i) => `<li><button type="button" role="option" data-i="${i}" aria-selected="${i === cursor}"><span class="hit__name">${esc(s.name)}<small>${esc(s.sido)} ${esc(s.sigungu)}</small></span><span class="tag ${s.area !== '동' ? 'tag--rural' : 'tag--city'}">${s.area !== '동' ? '농어촌' : '도시'}</span></button></li>`).join('')
-      : '<li class="muted" style="padding:9px 12px">찾는 학교가 없어요. 학교 이름을 다시 확인해 주세요.</li>';
+      ? hits.map((s, i) => { const r = s.area !== '동'; return `<li><button type="button" role="option" data-i="${i}" aria-selected="${i === cursor}"><svg class="hit__ico"><use href="#i-school"/></svg><span class="hit__name">${esc(s.name)}<small>${esc(s.sido)} ${esc(s.sigungu)}</small></span><span class="tag ${r ? 'tag--rural' : 'tag--city'}"><svg><use href="#i-pin"/></svg>${r ? '농어촌' : '도시'}</span></button></li>`; }).join('')
+      : '<li class="search__none">찾는 학교가 없어요. 학교 이름을 다시 확인해 주세요.</li>';
     list.hidden = false; q.setAttribute('aria-expanded', 'true');
   };
   q.addEventListener('input', () => {
@@ -117,25 +133,31 @@ function selectSchool(s) {
         <img class="school-card__img" src="${ASSETS.scenes.school}" alt="">
         <div class="school-card__body">
           <span class="school-name">${esc(s.name)}</span>
-          <p class="muted">${esc(s.sido)} ${esc(s.sigungu)}</p>
-          <div class="pills"><span class="tag ${rural ? 'tag--rural' : 'tag--city'}">${rural ? '농어촌(읍·면)' : '도시(동)'}</span><span class="tag tag--soft">우체국 ${esc(s.po)}</span></div>
+          <span class="school-card__addr">${esc(s.sido)} ${esc(s.sigungu)}</span>
+          <div class="pills">
+            <span class="tag ${rural ? 'tag--rural' : 'tag--city'}"><svg><use href="#i-pin"/></svg>${rural ? '농어촌(읍·면)' : '도시(동)'}</span>
+            <span class="tag tag--lav"><svg><use href="#i-mail"/></svg>${esc(s.po)}</span>
+          </div>
         </div>
-        <span class="school-card__check" aria-hidden="true">✓</span>
+        <span class="school-card__check" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
       </div>
       <div class="card dist-card">
-        <span class="muted">가장 가까운 우체국까지</span>
-        <span class="distance">${km(s.dist)}<small>아이 걸음 약 ${walkMin(s.dist)}분</small></span>
-        <div class="meter" aria-hidden="true"><span class="meter__bar" style="width:${pct}%;background:${far ? 'var(--color-rural)' : 'var(--color-city)'}"></span><span class="meter__mark"></span></div>
-        <div class="meter__labels"><span>0</span><span class="meter__badge">2km</span><span>6km+</span></div>
+        <div class="dist-card__head"><svg><use href="#i-pin"/></svg><span><b>가장 가까운 우체국까지</b><small>아이 걸음 약 ${walkMin(s.dist)}분</small></span><span class="distance">${km(s.dist)}</span></div>
+        <div class="slider" aria-hidden="true">
+          <span class="slider__fill" style="width:${pct}%;background:${far ? 'var(--color-rural)' : 'var(--color-mint-strong)'}"></span>
+          <span class="slider__knob" style="left:${pct}%"></span>
+          <span class="slider__flag"></span>
+        </div>
+        <div class="slider__ruler"><span class="slider__badge">2km · 30분</span></div>
       </div>
       <div class="card route ${rt === 'post' ? 'route--post' : 'route--box'}">
         <img class="route__map" src="${ASSETS.scenes.routeMap}" alt="">
         <div class="route__body">
-          <span class="muted">자동 배정된 발송 방법</span>
+          <span class="route__eyebrow"><svg><use href="#i-route"/></svg>자동 배정된 보내는 길</span>
           <strong>${rt === 'post' ? '단체 모바일 엽서' : '모아 보내는 상자 우체통'}</strong>
           <span class="route__why">${why}</span>
-          <span class="route__flow">${rt === 'post' ? '명단 등록 → 편지 사진 일괄 업로드 → 보호자 주소 입력 → 발송' : '둘 곳 고르기 → 보내는 날 정하기 → 신청'}</span>
-          <span class="muted">${group}</span>
+          <div class="route__steps">${(rt === 'post' ? ['명단 등록', '편지 사진 올리기', '보호자 주소', '발송'] : ['둘 곳 고르기', '보내는 날', '신청']).map((t, i) => `<span class="${i === 0 ? 'is-on' : ''}">${t}</span>`).join('')}</div>
+          <span class="route__group">${group}</span>
         </div>
       </div>
     </div>`;
@@ -143,14 +165,37 @@ function selectSchool(s) {
 }
 
 // ---------- 2단계 ----------
+const parts = { learn: true, write: true };
+const clsText = () => `${$('grade').value} ${$('klass').value}`;
+
 function renderPackage() {
   const n = Math.max(1, +$('count').value || 1);
+  $('cls').value = clsText();
   $('kit-count').textContent = `편지지·봉투 ${n}세트`;
   const rt = routeOf(state.school);
-  $('send-title').textContent = '보내기 · ' + (rt === 'post' ? '단체 모바일 엽서' : '상자 우체통');
+  $('send-title').textContent = rt === 'post' ? '보내기 · 모바일 엽서' : '보내기 · 상자 우체통';
   $('send-list').innerHTML = rt === 'post'
-    ? '<li>반 전체 편지 사진 한 번에 접수</li><li>손글씨 그대로 엽서로 인쇄·배달</li><li>첫 발송 지원</li>'
-    : '<li>잠금식 상자 우체통 1개</li><li>우표 없이 투입, 학교가 요금 일괄 납부</li><li>정해진 날 모아서 발송</li>';
+    ? '<li>반 전체 편지 사진 한 번에 접수</li><li>손글씨 그대로 엽서로 배달</li><li>첫 발송 지원</li>'
+    : '<li>잠금식 상자 우체통 1개</li><li>우표 없이 넣고 학교가 일괄 납부</li><li>정해진 날 모아서 발송</li>';
+  $('sum-school').textContent = state.school.name;
+  $('sum-cls').textContent = $('cls').value;
+  $('sum-count').textContent = `학생 ${n}명`;
+  $('sum-kit').textContent = `편지 키트 ${n}세트`;
+  $('sum-route').textContent = rt === 'post' ? '단체 모바일 엽서' : '상자 우체통';
+  document.querySelectorAll('[data-part]').forEach(c => c.classList.toggle('is-off', c.dataset.part !== 'send' && !parts[c.dataset.part]));
+  document.querySelectorAll('[data-sum]').forEach(li => { li.hidden = !parts[li.dataset.sum]; });
+}
+
+function setupPackage() {
+  const k = $('klass');
+  k.innerHTML = Array.from({ length: 15 }, (_, i) => `<option${i === 1 ? ' selected' : ''}>${i + 1}반</option>`).join('');
+  ['grade', 'klass', 'count'].forEach(id => $(id).addEventListener('input', renderPackage));
+  document.querySelectorAll('[data-count]').forEach(b => b.addEventListener('click', () => {
+    const c = $('count'); c.value = Math.min(40, Math.max(1, (+c.value || 1) + +b.dataset.count)); renderPackage();
+  }));
+  document.querySelectorAll('[data-part-toggle]').forEach(cb => cb.addEventListener('change', () => {
+    parts[cb.dataset.partToggle] = cb.checked; renderPackage();
+  }));
 }
 
 // ---------- 3단계 ----------
@@ -161,15 +206,23 @@ function renderSend() {
   $('flow-post').hidden = rt !== 'post';
   $('flow-box').hidden = rt !== 'box';
   $('t3').textContent = rt === 'post' ? '반 전체 편지 접수' : '상자 우체통 신청';
-  const who = rt === 'post' ? 'hoi' : 'shasha';
-  $('s3-guide').className = 'guide' + (rt === 'post' ? ' guide--lavender' : '');
-  $('s3-guide-img').src = ASSETS.characters[who].src;
-  $('s3-guide-img').alt = ASSETS.characters[who].name;
-  $('s3-guide-name').textContent = ASSETS.characters[who].name;
-  $('s3-guide-text').textContent = rt === 'post'
-    ? '명단과 편지 사진만 올리면 돼요. 엽서를 한 장씩 만들 필요가 없어요.'
+  $('s3-sub').textContent = rt === 'post'
+    ? '명단과 편지 사진을 한 번에 올리면 엽서로 인쇄해 배달해요.'
     : '우체통 둘 곳과 모아서 보내는 날만 정해 주세요.';
+  const who = rt === 'post' ? 'hoi' : 'shasha';
+  $('s3-guide-img').src = ASSETS.characters[who].src;
+  $('s3-guide-name').textContent = ASSETS.characters[who].name;
+  $('s3-guide-text').textContent = rt === 'post' ? '엽서를 한 장씩 만들 필요 없어요!' : '아이들은 넣기만 하면 돼요!';
   $('preview-from').textContent = `${state.school.name} ${$('cls').value}`;
+  $('post-actions').hidden = rt !== 'post';
+  $('preview-card').hidden = rt !== 'post';
+  $('sendcard-title').textContent = rt === 'post' ? '단체 모바일 엽서로 보내요' : '상자 우체통으로 보내요';
+  $('sendcard-pills').innerHTML = rt === 'post'
+    ? `<span class="tag tag--rural"><svg><use href="#i-pin"/></svg>${esc(state.school.sigungu)}</span><span class="tag tag--city"><svg><use href="#i-pin"/></svg>보호자 주소</span>`
+    : `<span class="tag tag--city"><svg><use href="#i-pin"/></svg>${esc($('box-place').value)}</span><span class="tag tag--rural"><svg><use href="#i-pin"/></svg>${esc(state.school.po)}</span>`;
+  $('sendcard-days').innerHTML = rt === 'post'
+    ? '<span class="tag tag--mint">주소 모이면 발송</span><span class="tag tag--mint">첫 발송 지원</span>'
+    : `<span class="tag tag--mint">${esc($('box-day').value)}</span>`;
   $('near-po').textContent = `가까운 우체국: ${state.school.po} (${km(state.school.dist)})`;
   renderRoster();
 }
@@ -188,7 +241,7 @@ function renderRoster() {
   syncOrder();
   const ns = names(), onlyPending = $('only-pending').checked;
   if (!ns.length) {
-    $('roster-rows').innerHTML = '<tr><td colspan="5" class="muted">명단을 입력하면 학생별 접수 현황이 여기에 나와요.</td></tr>';
+    $('roster-rows').innerHTML = '<tr><td colspan="6" class="muted">명단을 입력하면 학생별 접수 현황이 여기에 나와요.</td></tr>';
     $('counts').innerHTML = '';
     renderPreview();
     return;
@@ -203,19 +256,20 @@ function renderRoster() {
     const addr = hasAddr ? '<span class="badge badge--ok">입력 완료</span>'
       : code ? '<span class="badge badge--wait">보호자 입력 대기</span>'
              : '<span class="badge badge--none">QR 만들기 전</span>';
-    return `<tr><td>${i + 1}</td><td>${esc(n)}</td>
+    const av = ASSETS.characters[AVATAR_ORDER[i % AVATAR_ORDER.length]].src;
+    return `<tr><td class="num">${i + 1}</td><td><img class="row-av" src="${av}" alt=""></td><td class="name">${esc(n)}</td>
       <td>${letter ? `<img class="thumb" src="${letter}" alt="${esc(n)} 편지">` : '<span class="badge badge--none">사진 없음</span>'}</td>
       <td>${addr}</td>
       <td><button class="icon-btn" type="button" data-move="-1" data-i="${i}" aria-label="${esc(n)} 편지를 위 학생과 바꾸기">▲</button><button class="icon-btn" type="button" data-move="1" data-i="${i}" aria-label="${esc(n)} 편지를 아래 학생과 바꾸기">▼</button></td></tr>`;
   }).join('');
-  $('roster-rows').innerHTML = rows || '<tr><td colspan="5" class="muted">모든 학생이 준비됐어요.</td></tr>';
-  $('counts').innerHTML = `<span class="badge badge--ok">편지 ${withLetter}/${ns.length}</span><span class="badge badge--wait">주소 ${withAddr}/${ns.length}</span>`;
+  $('roster-rows').innerHTML = rows || '<tr><td colspan="6" class="muted">모든 학생이 준비됐어요.</td></tr>';
+  $('counts').innerHTML = `<span class="badge badge--ok"><svg><use href="#i-image"/></svg>편지 ${withLetter}/${ns.length}</span><span class="badge badge--wait"><svg><use href="#i-pin"/></svg>주소 ${withAddr}/${ns.length}</span>`;
   renderPreview();
 }
 
 function renderPreview() {
   const first = state.letters[state.order[0]];
-  $('preview-front').innerHTML = first ? `<img src="${first}" alt="첫 번째 학생 편지 미리보기">` : '<div class="postcard__text"><span class="muted">편지 사진이 여기에 인쇄돼요</span></div>';
+  $('preview-front').innerHTML = first ? `<img src="${first}" alt="첫 번째 학생 편지 미리보기">` : `<img src="${ASSETS.scenes.postcardFront}" alt="엽서 앞면 예시"><span class="postcard__hint">편지 사진이 여기에 인쇄돼요</span>`;
   $('preview-name').textContent = first && names()[0] ? '· ' + names()[0] : '';
 }
 
@@ -295,39 +349,59 @@ async function submit() {
 }
 
 function renderSummary() {
-  const s = state.school, rt = routeOf(s), ns = names();
-  const rows = [
-    ['신청 상태', '신청 완료'],
-    ['다음 단계', '패키지 준비 안내'],
-    ['학교', `${s.name} (${s.sido} ${s.sigungu})`],
-    ['학년·반', `${$('cls').value} · 학생 ${$('count').value}명`],
-    ['발송 방법', rt === 'post' ? '단체 모바일 엽서' : `상자 우체통 · ${$('box-place').value} · ${$('box-day').value}`],
-  ];
+  const s = state.school, rt = routeOf(s), ns = names(), rural = s.area !== '동';
+  const inc = [parts.learn && '배우기 · AI 애니메이션 6편', parts.write && `쓰기 · 편지 키트 ${$('count').value}세트`, '보내기 · ' + (rt === 'post' ? '단체 모바일 엽서' : '상자 우체통')].filter(Boolean);
+  let status = '';
   if (rt === 'post' && ns.length) {
     const letters = ns.filter((_, i) => state.letters[state.order[i]]).length;
     const addrs = ns.filter((_, i) => codeOf(i) && state.addr[codeOf(i)]).length;
-    rows.push(['접수 현황', `편지 ${letters}/${ns.length}장 · 주소 ${addrs}/${ns.length}명`]);
+    status = `<li><span>편지</span><b>${letters}/${ns.length}장</b></li><li><span>주소</span><b>${addrs}/${ns.length}명</b></li>`;
   }
-  rows.push(['신청 번호', state.application.id]);
-  $('summary').innerHTML = rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('');
+  $('summary').innerHTML = `
+    <div class="card info">
+      <img class="info__img" src="${ASSETS.scenes.school}" alt="">
+      <div><span class="info__k ${rural ? 'k--rural' : 'k--city'}">학교</span><b class="info__v">${esc(s.name)}</b><small>${esc(s.sido)} ${esc(s.sigungu)} · ${esc($('cls').value)} · 학생 ${esc($('count').value)}명</small></div>
+    </div>
+    <div class="card info">
+      <img class="info__img" src="${ASSETS.scenes.box}" alt="">
+      <div><span class="info__k k--gold">패키지</span><ul class="info__dots">${inc.map(t => `<li>${esc(t)}</li>`).join('')}</ul></div>
+    </div>
+    <div class="card info">
+      <img class="info__img" src="${ASSETS.scenes.routeMap}" alt="">
+      <div><span class="info__k ${rt === 'post' ? 'k--rural' : 'k--city'}">보내는 길</span><b class="info__v">${rt === 'post' ? '단체 모바일 엽서' : '상자 우체통'}</b><small>${rt === 'post' ? '보호자 주소가 모이면 발송' : esc(`${$('box-place').value} · ${$('box-day').value}`)}</small></div>
+    </div>
+    <div class="card info info--list">
+      <ul class="info__rows">
+        <li><span>신청 번호</span><b>${esc(state.application.id)}</b></li>
+        <li><span>신청 상태</span><b class="ok">신청 완료</b></li>
+        <li><span>다음 단계</span><b>패키지 준비 안내</b></li>
+        ${status}
+      </ul>
+    </div>
+    <div class="card po-card">
+      <img src="${ASSETS.scenes.postOffice}" alt="">
+      <div><b>가까운 우체국 · ${esc(s.po)}</b><small>학교에서 ${km(s.dist)} · 아이 걸음 약 ${walkMin(s.dist)}분</small></div>
+      <img class="po-card__map" src="${ASSETS.scenes.miniMap}" alt="">
+    </div>`;
+}
+
+function restart() {
+  Object.assign(state, { school: null, letters: [], order: [], application: null, addr: {} });
+  $('roster').value = ''; $('school-q').value = ''; $('school-result').innerHTML = EMPTY_HTML;
+  $('qr-sheet').hidden = true; $('go-2').disabled = true; go(1);
 }
 
 // ---------- 시작 ----------
 async function init() {
   applyAssets();
   setupSearch();
+  setupPackage();
   setupRoster();
-  $('count').addEventListener('input', renderPackage);
   $('go-2').addEventListener('click', () => go(2));
-  $('go-3').addEventListener('click', () => go(3));
-  $('submit').addEventListener('click', submit);
-  document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(+b.dataset.go)));
-  $('restart').addEventListener('click', () => {
-    Object.assign(state, { school: null, letters: [], order: [], application: null, addr: {} });
-    $('roster').value = ''; $('school-q').value = ''; $('school-result').innerHTML = EMPTY_HTML;
-    $('qr-sheet').hidden = true; $('go-2').disabled = true; go(1);
-  });
-  window.addEventListener('focus', () => { if (!$('step-3').hidden) refreshStatus(); });
+  $('nav-back').addEventListener('click', () => go(NAV[current].back));
+  $('nav-next').addEventListener('click', () => NAV[current].action());
+  ['box-place', 'box-day'].forEach(id => $(id).addEventListener('change', () => { if (current === 3) renderSend(); }));
+  window.addEventListener('focus', () => { if (current === 3) refreshStatus(); });
   $('school-result').innerHTML = EMPTY_HTML;
   go(1);
   await loadSchools();

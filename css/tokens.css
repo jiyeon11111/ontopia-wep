@@ -1,38 +1,48 @@
 /*
   디자인 토큰. 색·글꼴·크기·모서리·그림자는 여기서만 바꾼다.
-  GPT(디자인)에서 받은 :root 값을 이 파일에 덮어쓰면 화면 전체에 반영된다.
-  데이터 색 규칙: --city(도시, 코랄 계열) / --rural(농어촌, 남색 계열)은 분석 자료와 같은 의미로 유지한다.
+  값은 GPT 화면 시안(design-reference/)에서 뽑았다.
+  데이터 색 규칙: --color-city(도시, 코랄) / --color-rural(농어촌, 남색)은 분석 자료와 같은 의미로 유지한다.
 */
 :root {
+  /* 바탕 */
+  --color-page: #e9eedd;          /* 틀 바깥 */
+  --color-board: #fbf2e6;         /* 큰 판 (Letter Cream) */
+  --color-surface: #fdf8ef;       /* 카드 */
+  --color-surface-2: #f6eedf;     /* 안쪽 칸 */
+  --color-line: #ebdfc9;
+  --color-line-soft: #f1e8d8;
+
+  /* 글자 */
+  --color-text: #2b4a43;          /* Forest Ink */
+  --color-text-muted: #7d8c83;
+  --color-title: #2b6659;
+
   /* 브랜드 */
-  --color-bg: #fff8ed;          /* Letter Cream */
-  --color-surface: #fffcf5;      /* Paper */
-  --color-surface-2: #f7efe0;    /* 안쪽 칸 */
-  --color-stitch: #e4d6bc;       /* 카드 안쪽 점선 */
-  --color-text: #304c46;        /* Forest Ink */
-  --color-text-muted: #6f7d74;
-  --color-border: #eadfca;
-  --color-primary: #304c46;     /* 주요 버튼 */
+  --color-primary: #285a4f;
+  --color-primary-dark: #1d433b;
   --color-on-primary: #ffffff;
-  --color-mint: #83b9aa;        /* Ontopia Mint */
-  --color-mint-soft: #e5f2ed;
+  --color-mint: #68af8e;
+  --color-mint-soft: #dcefe3;
   --color-mint-strong: #2f6b5d;
-  --color-gold: #d9ad62;        /* Stamp Gold */
-  --color-gold-soft: #fbf0d9;
-  --color-lavender-soft: #f0ebf8;
-  --color-peach-soft: #fdeee3;
+  --color-sidebar: #e3eedf;
+  --color-lav: #b49dc9;
+  --color-lav-strong: #7c63a3;
+  --color-lav-soft: #efe4f3;
+  --color-gold: #cea656;
+  --color-gold-strong: #a87c27;
+  --color-gold-soft: #f8ebcc;
 
   /* 데이터 의미 색 */
-  --color-city: #cf5a43;
-  --color-city-soft: #fbe6df;
-  --color-rural: #2b5797;
-  --color-rural-soft: #e2ebf7;
+  --color-city: #e0634f;
+  --color-city-soft: #fbe3dc;
+  --color-rural: #3b4f8f;
+  --color-rural-soft: #e1e6f4;
 
   /* 상태 */
-  --color-ok: #3f7d4e;
-  --color-ok-soft: #e3f1e5;
-  --color-wait: #a46a0a;
-  --color-wait-soft: #fdf1d8;
+  --color-ok: #3f8a5c;
+  --color-ok-soft: #dff1e2;
+  --color-wait: #b07d12;
+  --color-wait-soft: #fbefcf;
 
   /* 글꼴 */
   --font-body: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
@@ -42,22 +52,17 @@
   --text-md: 16px;
   --text-lg: 18px;
   --text-xl: 24px;
-  --text-2xl: 32px;
+  --text-2xl: 30px;
   --text-num: 40px;
 
-  /* 간격·모서리·그림자 */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --radius-sm: 8px;
-  --radius-md: 12px;
+  /* 모서리·그림자 */
+  --radius-sm: 10px;
+  --radius-md: 18px;
   --radius-lg: 26px;
+  --radius-xl: 34px;
   --radius-pill: 999px;
-  --shadow-card: 0 2px 0 rgba(120, 96, 60, .06), 0 10px 28px rgba(120, 96, 60, .10);
-  --shadow-soft: 0 4px 14px rgba(120, 96, 60, .10);
-  /* 항공우편 줄무늬 */
-  --airmail: repeating-linear-gradient(-45deg, #83b9aa 0 14px, transparent 14px 24px, #b9a3d6 24px 38px, transparent 38px 48px);
+  --shadow-board: 0 18px 40px rgba(73, 62, 30, .18), inset 0 2px 0 #fffdf8;
+  --shadow-card: 0 1px 0 #fffdf8 inset, 0 6px 16px rgba(120, 96, 60, .12), 0 1px 3px rgba(120, 96, 60, .10);
+  --shadow-inset: inset 0 2px 6px rgba(120, 96, 60, .10);
+  --shadow-btn: 0 5px 0 var(--color-primary-dark), 0 10px 18px rgba(29, 67, 59, .25);
 }

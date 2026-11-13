@@ -78,10 +78,11 @@ ontopia-web/
 └── scripts/build_schools.py
 ```
 
-## 그림 파일 (GPT 시안 2026-11-13 반영)
-- `assets/hero.jpg`: 상단 배너 (캐릭터 5명)
-- `assets/stamps/{search,package,send,done}.png`: 진행 단계 여권 스탬프 (투명 PNG)
-- `assets/scenes/*.jpg`: 빈 화면(empty), 학교·경로·패키지 카드·완료 장면 (시안에서 잘라 씀)
-- `assets/characters/*.jpg`: 원형 아바타, hero 그림에서 잘라 씀
-- `design-reference/`: 화면 시안 4장 (레이아웃 기준, 사이트에는 안 쓰임)
-경로는 `js/config.js`의 `ASSETS`에서 바꿀 수 있어요.
+## 그림 파일 (GPT 시안 반영, 2026-11-13)
+화면 구조는 `design-reference/`의 GPT 시안을 그대로 따른다: 위 마을 풍경 + 가운데 진행 단계 알약, 크림색 큰 판, 아래 꽃·돌길 풍경.
+- `assets/frame/`: 위·아래 풍경 띠, 좌우 가장자리 (시안에서 잘라 냄)
+- `assets/characters/avatar|full/*.webp`: 캐릭터 5종 흉상·전신 (투명)
+- `assets/deco/`: 동전 스탬프(배우기·쓰기·보내기·문장), 우표 장식
+- `assets/stamps/`: 여권 스탬프 4종
+- `assets/scenes/`: 단계별 장면 그림 (빈 화면, 학교, 경로 지도, 패키지 카드, 엽서, 완료)
+경로는 `js/config.js`의 `ASSETS`에서 바꾼다. 색·모서리·그림자는 `css/tokens.css`.

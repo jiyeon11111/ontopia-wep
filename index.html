@@ -13,178 +13,269 @@
 <script type="module" src="js/app.js"></script>
 </head>
 <body>
-<div class="app">
-  <header class="site-header">
-    <a class="brand" href="./">
-      <span class="brand__mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
-      <span><span class="brand__name">낙온 <em>ONTOPIA</em></span><span class="brand__sub">마음을 잇는 우정문화 패키지</span></span>
-    </a>
-    <a class="link-muted" href="#help">이용 안내</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cap" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3 1 8.5 12 14l9-4.5V16h2V8.5L12 3Zm-6.5 8.9V16c0 1.9 2.9 3.5 6.5 3.5s6.5-1.6 6.5-3.5v-4.1L12 15.2l-6.5-3.3Z"/></symbol>
+  <symbol id="i-user2" viewBox="0 0 24 24"><path fill="currentColor" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7.5 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM1 20c0-3.3 3.6-6 8-6s8 2.7 8 6v1H1v-1Zm17 1v-1c0-1.9-.8-3.6-2.2-4.9 4 .2 7.2 2.3 7.2 4.9v1h-5Z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><path fill="currentColor" d="M12 10a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM5 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm14 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM6 20c0-3 2.7-5.5 6-5.5s6 2.5 6 5.5v1H6v-1Zm-6 1v-1c0-2 1.6-3.7 3.9-4.3A7 7 0 0 0 4 20v1H0Zm20 0v-1c0-1.6-.6-3.1-1.6-4.3 2.2.6 3.6 2.3 3.6 4.3v1h-2Z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 6c-2-1.5-5-2-9-2v14c4 0 7 .5 9 2 2-1.5 5-2 9-2V4c-4 0-7 .5-9 2Zm0 0v14M6 8h3M6 11h3M15 8h3M15 11h3"/></symbol>
+  <symbol id="i-pencil" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="m4 20 1-5L16 4l4 4L9 19l-5 1Zm10-14 4 4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></g></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><path fill="currentColor" d="M20 7h-2.2A3 3 0 0 0 12 3.8 3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3h8V7h2v4h8V8a1 1 0 0 0-1-1ZM9 7a1 1 0 1 1 1-1v1H9Zm6 0h-1V6a1 1 0 1 1 1 1ZM4 13v7a1 1 0 0 0 1 1h6v-8H4Zm9 8h6a1 1 0 0 0 1-1v-7h-7v8Z"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></symbol>
+  <symbol id="i-school" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 9 4v2L2 9v2h20V9l-7-3V4l-3-2Zm-1 6h2v2h-2V8ZM3 12v9h7v-5h4v5h7v-9H3Zm2 2h2v2H5v-2Zm12 0h2v2h-2v-2Z"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m20 20-4.5-4.5"/></g></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="5" cy="18" r="2.5"/><circle cx="19" cy="6" r="2.5"/><path d="M7.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h7.5" stroke-dasharray="2 3"/></g></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 15V4m-4 4 4-4 4 4M4 15v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m21 16-5-5-9 9"/></g></symbol>
+  <symbol id="i-qr" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v8h-8V3Zm2 2v4h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm8-2h3v3h-3v-3Zm5 0h3v3h-3v-3Zm-5 5h3v3h-3v-3Zm5 0h3v3h-3v-3Zm-2.5-2.5h3v3h-3v-3Z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></g></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 10a7 7 0 0 1 14 0v11H5V10Z"/><path d="M9 10h6"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m15 5-7 7 7 7"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></symbol>
+</svg>
+
+<div class="scene">
+  <!-- 위쪽 마을 풍경 + 진행 단계 -->
+  <header class="scene__top">
+    <img class="scene__top-img" src="assets/frame/top.jpg" alt="">
+    <a class="brand" href="./" aria-label="낙온 ONTOPIA 처음으로"><span class="brand__name">ONTOPIA</span><span class="brand__sub">우정문화 패키지</span></a>
+    <nav class="stepper" aria-label="신청 단계">
+      <ol id="progress">
+        <li data-step="1"><span class="stepper__dot"><span class="stepper__num">1</span><svg class="stepper__chk"><use href="#i-check"/></svg></span><span class="stepper__label">학교 찾기</span></li>
+        <li data-step="2"><span class="stepper__dot"><span class="stepper__num">2</span><svg class="stepper__chk"><use href="#i-check"/></svg></span><span class="stepper__label">패키지 구성</span></li>
+        <li data-step="3"><span class="stepper__dot"><span class="stepper__num">3</span><svg class="stepper__chk"><use href="#i-check"/></svg></span><span class="stepper__label">발송 준비</span></li>
+        <li data-step="4"><span class="stepper__dot"><span class="stepper__num">4</span><svg class="stepper__chk"><use href="#i-check"/></svg></span><span class="stepper__label">신청 완료</span></li>
+      </ol>
+    </nav>
   </header>
 
-  <div class="banner">
-    <img class="banner__img" data-asset="hero" alt="온토피아 친구들 달이·샤샤·앵두·콰티·호이가 편지와 여권을 들고 모여 있다">
-    <div class="banner__text">
-      <span class="banner__eyebrow">WELCOME TO ONTOPIA</span>
-      <p class="banner__title">우리 반의 마음 여행을<br>시작해요</p>
-    </div>
-  </div>
+  <main class="board">
 
-  <nav class="progress" aria-label="신청 단계">
-    <ol id="progress">
-      <li data-step="1"><span class="progress__stamp"><img data-asset="stamps.search" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">학교 찾기</span></li>
-      <li data-step="2"><span class="progress__stamp"><img data-asset="stamps.package" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">패키지 구성</span></li>
-      <li data-step="3"><span class="progress__stamp"><img data-asset="stamps.send" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">발송 준비</span></li>
-      <li data-step="4"><span class="progress__stamp"><img data-asset="stamps.done" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">신청 완료</span></li>
-    </ol>
-  </nav>
+    <!-- ============ 1. 학교 찾기 ============ -->
+    <section class="step step--1" id="step-1" aria-labelledby="t1">
+      <div class="step__main">
+        <div class="head">
+          <span class="head__icon"><svg><use href="#i-school"/></svg></span>
+          <div><h1 id="t1">우리 학교를 찾아 주세요</h1><p class="head__sub">학교 위치를 보고 편지를 보내는 가장 쉬운 방법을 골라 드려요.</p></div>
+        </div>
 
-  <main>
-    <!-- 1. 학교 찾기 -->
-    <section class="step" id="step-1" aria-labelledby="t1">
-      <div class="step__head">
-        <img class="step__stamp" data-asset="stamps.search" alt="">
-        <div><h1 id="t1">우리 학교 찾기</h1><p class="muted">배우고, 쓰고, 실제로 보내는 우정문화 수업을 한 번의 신청으로 준비하세요.</p></div>
-      </div>
-
-      <div class="search-card">
-        <label class="label sr-only" for="school-q">우리 학교를 찾아주세요</label>
         <div class="search">
-          <svg class="search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
-          <input class="field" id="school-q" type="search" placeholder="학교 이름 (예: 의귀초)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="school-list">
+          <svg class="search__icon"><use href="#i-search"/></svg>
+          <label class="sr-only" for="school-q">학교 이름</label>
+          <input class="search__input" id="school-q" type="search" placeholder="학교 이름 (예: 의귀초)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="school-list">
           <ul class="search__list" id="school-list" role="listbox" hidden></ul>
         </div>
         <div class="chips" aria-label="예시 학교">
-          <span class="muted">예시</span>
-          <button class="chip" type="button" data-example="의귀초등학교|제주">제주 의귀초 · 농어촌</button>
-          <button class="chip" type="button" data-example="서울평화초등학교|서울">서울 평화초 · 도시</button>
-          <button class="chip" type="button" data-example="안중초등학교|충남">충남 안중초 · 농어촌</button>
+          <span class="chips__label">예시</span>
+          <button class="chip" type="button" data-example="의귀초등학교|제주">제주 의귀초</button>
+          <button class="chip" type="button" data-example="서울평화초등학교|서울">서울 평화초</button>
+          <button class="chip" type="button" data-example="안중초등학교|충남">충남 안중초</button>
         </div>
-        <div class="guide"><img data-character="aengdu" alt=""><div><b data-character-name="aengdu"></b><p>학교를 검색하면 위치에 맞는 발송 방법을 알려 줄게요.</p></div></div>
         <p class="status-msg" id="data-error" hidden></p>
-      </div>
 
-      <div id="school-result"></div>
-      <button class="btn btn--primary btn--cta" id="go-2" type="button" disabled>우리 학교로 시작하기 <span aria-hidden="true">→</span></button>
+        <div id="school-result"></div>
+
+        <div class="cta-row">
+          <span class="spark spark--l" aria-hidden="true"></span>
+          <button class="btn btn--primary btn--cta" id="go-2" type="button" disabled>우리 학교로 시작하기 <svg><use href="#i-right"/></svg></button>
+          <span class="spark spark--r" aria-hidden="true"></span>
+        </div>
+      </div>
+      <aside class="step__aside friends" aria-hidden="true">
+        <img data-asset="scenes.friends" alt="">
+      </aside>
     </section>
 
-    <!-- 2. 패키지 구성 -->
-    <section class="step" id="step-2" aria-labelledby="t2" hidden>
-      <div class="step__head">
-        <img class="step__stamp" data-asset="stamps.package" alt="">
-        <div><h2 id="t2">우리 반 온토피아 패키지</h2><p class="muted">배우기·쓰기·보내기가 한 상자로 와요. 학년·반과 학생 수만 알려 주세요.</p></div>
+    <!-- ============ 2. 패키지 구성 ============ -->
+    <section class="step step--2" id="step-2" aria-labelledby="t2" hidden>
+      <div class="step__main">
+        <div class="head">
+          <img class="head__coin" data-asset="deco.crest" alt="">
+          <div><h2 id="t2">우리 반 온토피아 패키지</h2><p class="head__sub">배우기·쓰기·보내기가 한 상자로 와요. 학년·반과 학생 수만 알려 주세요.</p></div>
+          <img class="head__postage" data-asset="deco.postage" alt="">
+        </div>
+
+        <div class="filterbar">
+          <label class="filterbar__item"><svg class="filterbar__icon"><use href="#i-cap"/></svg><span class="sr-only">학년</span>
+            <span class="select"><select id="grade"><option>1학년</option><option>2학년</option><option selected>3학년</option><option>4학년</option><option>5학년</option><option>6학년</option></select><svg><use href="#i-chev"/></svg></span>
+          </label>
+          <label class="filterbar__item"><svg class="filterbar__icon"><use href="#i-user2"/></svg><span class="sr-only">반</span>
+            <span class="select"><select id="klass"></select><svg><use href="#i-chev"/></svg></span>
+          </label>
+          <span class="filterbar__sep" aria-hidden="true"></span>
+          <div class="filterbar__item"><svg class="filterbar__icon filterbar__icon--wide"><use href="#i-users"/></svg>
+            <div class="stepnum" role="group" aria-label="학생 수">
+              <button type="button" data-count="-1" aria-label="학생 수 줄이기">−</button>
+              <input id="count" type="number" min="1" max="40" value="20" aria-label="학생 수">
+              <button type="button" data-count="1" aria-label="학생 수 늘리기">+</button>
+            </div>
+          </div>
+          <input type="hidden" id="cls" value="3학년 2반">
+        </div>
+
+        <div class="packages">
+          <article class="pkg pkg--learn" data-part="learn">
+            <div class="pkg__art"><img data-asset="scenes.pkgLearn" alt=""></div>
+            <img class="pkg__coin" data-asset="deco.coinLearn" alt="">
+            <h3 class="pkg__title">배우기</h3>
+            <p class="pkg__by"><span data-character-name="aengdu"></span>가 안내해요</p>
+            <ul class="pkg__list"><li>AI 애니메이션 6편</li><li>편지 예절부터 우체국까지</li><li>교사용 수업안</li></ul>
+            <label class="pkg__pick"><input type="checkbox" data-part-toggle="learn" checked><span class="pkg__radio"></span>패키지에 넣기</label>
+          </article>
+          <article class="pkg pkg--write" data-part="write">
+            <div class="pkg__art"><img data-asset="scenes.pkgWrite" alt=""></div>
+            <img class="pkg__coin" data-asset="deco.coinWrite" alt="">
+            <h3 class="pkg__title">쓰기</h3>
+            <p class="pkg__by"><span data-character-name="dali"></span>가 안내해요</p>
+            <ul class="pkg__list"><li id="kit-count">편지지·봉투 20세트</li><li>온토피아 여권·우표 꾸미기</li><li>월간 활동지</li></ul>
+            <label class="pkg__pick"><input type="checkbox" data-part-toggle="write" checked><span class="pkg__radio"></span>패키지에 넣기</label>
+          </article>
+          <article class="pkg pkg--send" data-part="send">
+            <div class="pkg__art"><img data-asset="scenes.pkgSend" alt=""></div>
+            <img class="pkg__coin" data-asset="deco.coinSend" alt="">
+            <h3 class="pkg__title" id="send-title">보내기</h3>
+            <p class="pkg__by"><span data-character-name="hoi"></span>가 안내해요</p>
+            <ul class="pkg__list" id="send-list"></ul>
+            <label class="pkg__pick"><input type="checkbox" checked disabled><span class="pkg__radio"></span>학교 위치로 자동 배정</label>
+          </article>
+        </div>
       </div>
-      <div class="grid-2">
-        <label class="label" for="cls">학년·반<input class="field" id="cls" type="text" value="3학년 2반"></label>
-        <label class="label" for="count">학생 수<input class="field" id="count" type="number" min="1" max="40" value="20"></label>
-      </div>
-      <div class="packages">
-        <article class="package package--learn">
-          <img class="package__art" data-asset="scenes.pkgLearn" alt="">
-          <img class="package__avatar" data-character="aengdu" alt="">
-          <div class="package__head"><small><span data-character-name="aengdu"></span>가 안내해요</small><h3>배우기</h3></div>
-          <ul><li>AI 애니메이션 6편</li><li>편지 예절부터 우체국 전달 과정까지</li><li>교사용 수업안</li></ul>
-        </article>
-        <article class="package package--write">
-          <img class="package__art" data-asset="scenes.pkgWrite" alt="">
-          <img class="package__avatar" data-character="dali" alt="">
-          <div class="package__head"><small><span data-character-name="dali"></span>가 안내해요</small><h3>쓰기</h3></div>
-          <ul><li id="kit-count">편지지·봉투 20세트</li><li>온토피아 여권, 우표 꾸미기 재료</li><li>영상과 이어지는 월간 활동지</li></ul>
-        </article>
-        <article class="package package--send">
-          <img class="package__art" data-asset="scenes.pkgSend" alt="">
-          <img class="package__avatar" data-character="hoi" alt="">
-          <div class="package__head"><small><span data-character-name="hoi"></span>가 안내해요</small><h3 id="send-title">보내기</h3></div>
-          <ul id="send-list"></ul>
-        </article>
-      </div>
-      <div class="actions"><button class="btn" type="button" data-go="1">이전</button><button class="btn btn--primary" type="button" id="go-3">다음: 발송 준비 <span aria-hidden="true">→</span></button></div>
+
+      <aside class="step__aside sidebar">
+        <svg class="sidebar__tag" viewBox="0 0 90 140" aria-hidden="true">
+          <path d="M44 4c-14 4-16 22-4 30" fill="none" stroke="#a9773d" stroke-width="3" stroke-linecap="round"/>
+          <path d="M46 4c14 6 10 24-2 30" fill="none" stroke="#8a5d2c" stroke-width="3" stroke-linecap="round"/>
+          <g transform="rotate(14 45 80)"><path d="M22 44 45 28l23 16v80a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6V44Z" fill="#f6e8cc" stroke="#e1c99d" stroke-width="2"/>
+          <circle cx="45" cy="46" r="5" fill="#fbf2e6" stroke="#c9a46a" stroke-width="2.5"/>
+          <path d="M36 104c4-14 12-22 22-26-2 12-10 22-22 26Zm0 0 16-16" fill="#9cb98f" stroke="#7a9a6e" stroke-width="1.5"/></g></svg>
+        <h3 class="sidebar__title">신청 요약</h3>
+        <div class="sidebar__card">
+          <ul class="sidebar__rows">
+            <li><svg><use href="#i-cap"/></svg><span id="sum-school"></span></li>
+            <li><svg><use href="#i-user2"/></svg><span id="sum-cls"></span></li>
+            <li><svg><use href="#i-users"/></svg><span id="sum-count"></span></li>
+          </ul>
+          <ul class="sidebar__parts">
+            <li class="part part--learn" data-sum="learn"><span class="part__icon"><svg><use href="#i-book"/></svg></span><span><b>배우기</b><small>AI 애니메이션 6편</small></span></li>
+            <li class="part part--write" data-sum="write"><span class="part__icon"><svg><use href="#i-pencil"/></svg></span><span><b>쓰기</b><small id="sum-kit">편지 키트 20세트</small></span></li>
+            <li class="part part--send"><span class="part__icon"><svg><use href="#i-mail"/></svg></span><span><b>보내기</b><small id="sum-route"></small></span></li>
+          </ul>
+          <div class="sidebar__gift"><svg><use href="#i-gift"/></svg><span><b>한 상자로 학교에 도착</b><small>기존 우편 배달망으로 보내요</small></span></div>
+        </div>
+      </aside>
     </section>
 
-    <!-- 3. 발송 준비 -->
-    <section class="step" id="step-3" aria-labelledby="t3" hidden>
-      <div class="step__head">
-        <img class="step__stamp" data-asset="stamps.send" alt="">
-        <div><h2 id="t3">발송 준비</h2></div>
-      </div>
-      <div class="guide" id="s3-guide"><img id="s3-guide-img" alt=""><div><b id="s3-guide-name"></b><p id="s3-guide-text"></p></div></div>
+    <!-- ============ 3. 발송 준비 ============ -->
+    <section class="step step--3" id="step-3" aria-labelledby="t3" hidden>
+      <div class="step__main">
+        <div class="head">
+          <img class="head__coin" data-asset="deco.coinSend" alt="">
+          <div><h2 id="t3">발송 준비</h2><p class="head__sub" id="s3-sub"></p></div>
+          <div class="guide-bubble" id="s3-guide"><img id="s3-guide-img" alt=""><p><b id="s3-guide-name"></b><span id="s3-guide-text"></span></p></div>
+        </div>
 
-      <div id="flow-post">
-        <div class="grid-2">
-          <label class="label" for="roster">반 명단 (한 줄에 한 명)
-            <textarea class="field" id="roster" placeholder="김하늘&#10;이도윤"></textarea>
-          </label>
-          <div class="label">편지 사진 (여러 장 한 번에)
-            <label class="dropzone" id="dropzone" for="letter-files">편지 사진을 끌어다 놓거나 눌러서 고르세요<br><small>명단 순서대로 짝지어지고, ▲▼로 바꿀 수 있어요</small></label>
-            <input id="letter-files" type="file" accept="image/*" multiple hidden>
+        <div id="flow-post" class="board-card">
+          <h3 class="board-card__title"><svg><use href="#i-users"/></svg>반 명단과 편지</h3>
+          <div class="intake">
+            <div class="intake__box">
+              <div class="intake__head"><span class="intake__ico"><svg><use href="#i-user2"/></svg></span><span><b>반 명단</b><small>한 줄에 한 명씩</small></span></div>
+              <label class="sr-only" for="roster">반 명단</label>
+              <textarea class="field" id="roster" placeholder="김하늘&#10;이도윤"></textarea>
+            </div>
+            <div class="intake__box">
+              <div class="intake__head"><span class="intake__ico intake__ico--lav"><svg><use href="#i-image"/></svg></span><span><b>편지 사진</b><small>여러 장 한 번에</small></span></div>
+              <label class="dropzone" id="dropzone" for="letter-files"><svg><use href="#i-upload"/></svg><span>끌어다 놓거나 눌러서 고르기</span><small>명단 순서대로 짝지어져요</small></label>
+              <input id="letter-files" type="file" accept="image/*" multiple hidden>
+            </div>
           </div>
-        </div>
-        <div class="toolbar">
-          <div class="toolbar__counts" id="counts"></div>
-          <label class="check" for="only-pending"><input id="only-pending" type="checkbox"> 아직 덜 된 학생만 보기</label>
-        </div>
-        <div class="table-wrap"><table>
-          <thead><tr><th>번호</th><th>학생</th><th>편지</th><th>받는 사람 주소</th><th>순서</th></tr></thead>
-          <tbody id="roster-rows"></tbody>
-        </table></div>
-        <p class="muted">받는 사람 주소는 가정통신문 QR로 보호자가 직접 입력해요. 선생님 화면에는 입력 여부만 보여요.</p>
-        <div class="actions">
-          <button class="btn" type="button" id="make-qr">가정통신문 QR 만들기</button>
-          <button class="btn" type="button" id="refresh-status">주소 입력 현황 새로고침</button>
-        </div>
-        <div class="qr-sheet" id="qr-sheet" hidden></div>
-        <div class="postcards-wrap">
-          <p style="margin:0 0 8px;font-weight:700">엽서 미리보기 <span class="muted" id="preview-name"></span></p>
-          <div class="postcards">
-            <div class="postcard" id="preview-front"><div class="postcard__text"><span class="muted">편지 사진이 여기에 인쇄돼요</span></div></div>
-            <div class="postcard"><span class="postcard__stamp" aria-hidden="true"></span><div class="postcard__text">
-              <div><b>보내는 사람</b><br><span id="preview-from"></span></div>
-              <div style="align-self:flex-end;text-align:right"><b>받는 사람</b><br>보호자가 입력한 주소</div>
-            </div></div>
+          <div class="toolbar">
+            <div class="toolbar__counts" id="counts"></div>
+            <label class="check" for="only-pending"><input id="only-pending" type="checkbox"> 아직 덜 된 학생만</label>
           </div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>#</th><th></th><th>학생</th><th>편지</th><th>받는 사람 주소</th><th>순서</th></tr></thead>
+            <tbody id="roster-rows"></tbody>
+          </table></div>
+          <p class="muted">받는 사람 주소는 가정통신문 QR로 보호자가 직접 입력해요. 선생님 화면에는 입력 여부만 보여요.</p>
+          <div class="qr-sheet" id="qr-sheet" hidden></div>
         </div>
-      </div>
 
-      <div id="flow-box" hidden>
-        <div class="grid-2">
-          <label class="label" for="box-place">상자 우체통 둘 곳
-            <select class="field" id="box-place"><option>교실</option><option>학교 도서관</option><option>중앙 현관</option></select>
-          </label>
-          <label class="label" for="box-day">모아서 보내는 날
-            <select class="field" id="box-day"><option>매주 금요일</option><option>격주 금요일</option><option>매월 마지막 주</option></select>
-          </label>
-        </div>
-        <div class="panel">
-          <b>이렇게 운영돼요</b>
-          <ul class="muted" style="margin:0;padding-left:18px">
-            <li>아이는 우표 없이 편지를 상자 우체통에 넣기만 하면 돼요</li>
-            <li>잠금 상자라 선생님·사서만 열 수 있어요</li>
-            <li>모인 편지는 학교가 요금을 한꺼번에 내는 방식으로 보내요 (제안 중인 운영 방식)</li>
-            <li id="near-po"></li>
+        <div id="flow-box" class="board-card" hidden>
+          <h3 class="board-card__title"><svg><use href="#i-box"/></svg>상자 우체통 설치</h3>
+          <div class="grid-2">
+            <label class="label" for="box-place">상자 우체통 둘 곳
+              <span class="select select--block"><select id="box-place"><option>교실</option><option>학교 도서관</option><option>중앙 현관</option></select><svg><use href="#i-chev"/></svg></span>
+            </label>
+            <label class="label" for="box-day">모아서 보내는 날
+              <span class="select select--block"><select id="box-day"><option>매주 금요일</option><option>격주 금요일</option><option>매월 마지막 주</option></select><svg><use href="#i-chev"/></svg></span>
+            </label>
+          </div>
+          <ul class="howto">
+            <li><span class="howto__n">1</span>아이는 우표 없이 편지를 상자 우체통에 넣기만 해요</li>
+            <li><span class="howto__n">2</span>잠금 상자라 선생님·사서만 열 수 있어요</li>
+            <li><span class="howto__n">3</span>모인 편지는 학교가 요금을 한꺼번에 내는 방식으로 보내요 <small>(제안 중인 운영 방식)</small></li>
           </ul>
         </div>
+        <p class="status-msg" id="s3-error" hidden></p>
       </div>
-      <p class="status-msg" id="s3-error" hidden></p>
-      <div class="actions"><button class="btn" type="button" data-go="2">이전</button><button class="btn btn--primary" type="button" id="submit">✓ 신청하기</button></div>
+
+      <aside class="step__aside">
+        <div class="board-card preview" id="preview-card">
+          <h3 class="board-card__title"><svg><use href="#i-image"/></svg>엽서 미리보기 <span class="muted" id="preview-name"></span></h3>
+          <div class="postcards">
+            <div class="postcard postcard--front" id="preview-front"></div>
+            <div class="postcard postcard--back">
+              <img data-asset="scenes.postcardBack" alt="">
+              <span class="postcard__from"><b>보내는 사람</b><span id="preview-from"></span></span>
+              <span class="postcard__to"><b>받는 사람</b>보호자가 입력한 주소</span>
+            </div>
+          </div>
+        </div>
+        <div class="board-card sendcard">
+          <img class="sendcard__coin" data-asset="deco.coinLearn" alt="">
+          <h3 class="board-card__title"><svg><use href="#i-mail"/></svg><span id="sendcard-title">보내는 길</span></h3>
+          <div class="sendcard__row"><svg><use href="#i-pin"/></svg><div class="pills" id="sendcard-pills"></div></div>
+          <div class="sendcard__row"><svg><use href="#i-calendar"/></svg><div class="pills" id="sendcard-days"></div></div>
+          <div class="sendcard__actions" id="post-actions">
+            <button class="btn btn--soft" type="button" id="make-qr"><svg><use href="#i-qr"/></svg>가정통신문 QR 만들기</button>
+            <button class="btn btn--ghost" type="button" id="refresh-status"><svg><use href="#i-refresh"/></svg>주소 입력 현황</button>
+          </div>
+          <p class="muted" id="near-po"></p>
+        </div>
+      </aside>
     </section>
 
-    <!-- 4. 신청 완료 -->
-    <section class="step" id="step-4" aria-labelledby="t4" hidden>
-      <div class="done">
-        <img class="done__stamp" data-asset="stamps.done" alt="">
-        <h2 id="t4">우리 반의 마음 여행이 시작됐어요</h2>
-        <p class="muted">온토피아 패키지 신청이 접수됐어요.</p>
-        <div class="done__grid"><dl class="summary" id="summary"></dl><img class="done__scene" data-asset="scenes.done" alt="달이가 온토피아 우체통에 편지를 넣고 있다"></div>
-        <div class="guide guide--gold" style="width:100%;text-align:left"><img data-character="kwati" alt=""><div><b data-character-name="kwati"></b><p>여권에 마지막 도장 꽝! 편지가 실제로 도착하면 다시 알려 줄게요.</p></div></div>
-        <p class="muted">신청 완료와 편지 발송 완료는 다른 단계예요. 발송이 끝나면 따로 알려 드려요.</p>
+    <!-- ============ 4. 신청 완료 ============ -->
+    <section class="step step--4" id="step-4" aria-labelledby="t4" hidden>
+      <div class="step__main">
+        <div class="done-banner">
+          <img class="done-banner__seal" data-asset="stamps.done" alt="">
+          <div><h2 id="t4">우리 반의 마음 여행이 시작됐어요</h2><p class="head__sub">온토피아 패키지 신청이 접수됐어요. 신청 완료와 편지 발송 완료는 다른 단계예요.</p></div>
+        </div>
+        <div class="done-grid" id="summary"></div>
       </div>
-      <div class="actions"><button class="btn" type="button" data-go="3">이전</button><button class="btn" type="button" id="restart">다른 반 신청하기</button></div>
+      <aside class="step__aside done-scene">
+        <img data-asset="scenes.done" alt="달이가 온토피아 우체통에 편지를 넣고 있다">
+        <div class="guide-bubble guide-bubble--gold"><img data-character="kwati" alt=""><p><b data-character-name="kwati"></b><span>여권에 마지막 도장 꽝! 편지가 실제로 도착하면 다시 알려 줄게요.</span></p></div>
+      </aside>
     </section>
+
+    <!-- 하단 이동 버튼 -->
+    <div class="nav-row" id="nav-row" hidden>
+      <button class="btn btn--ghost btn--back" type="button" id="nav-back"><svg><use href="#i-left"/></svg><span>이전</span></button>
+      <button class="btn btn--primary btn--next" type="button" id="nav-next"><span id="nav-next-label">다음</span><svg><use href="#i-right"/></svg></button>
+    </div>
+    <div class="credit">
+      <p>학교·우체국 거리는 교육부 학교위치(2026.10)와 우정사업본부 우체국 현황(2026.8)으로 낙온팀이 계산한 직선거리예요. 전국 운영 중 초등학교 6,286곳.</p>
+      <p>캐릭터: 낙온팀 애니메이션 온토피아의 앵두·달이·호이·콰티·샤샤 · 포커스온 7기 낙온팀</p>
+    </div>
   </main>
 
-  <footer class="site-footer" id="help">
-    <p>학교·우체국 거리는 교육부 학교위치(2026.10)와 우정사업본부 우체국 현황(2026.8)으로 낙온팀이 계산한 직선거리예요. 전국 운영 중 초등학교 6,286곳.</p>
-    <p>캐릭터: 낙온팀 애니메이션 온토피아의 앵두·달이·호이·콰티·샤샤 · 포커스온 7기 낙온팀</p>
+  <footer class="scene__bottom" id="help">
+    <img class="scene__bottom-img" src="assets/frame/bot.jpg" alt="">
   </footer>
 </div>
 </body>
