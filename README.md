@@ -77,3 +77,11 @@ ontopia-web/
 ├── assets/             캐릭터·첫 화면 그림
 └── scripts/build_schools.py
 ```
+
+## 그림 파일 (GPT 시안 2026-11-13 반영)
+- `assets/hero.jpg`: 상단 배너 (캐릭터 5명)
+- `assets/stamps/{search,package,send,done}.png`: 진행 단계 여권 스탬프 (투명 PNG)
+- `assets/scenes/*.jpg`: 빈 화면(empty), 학교·경로·패키지 카드·완료 장면 (시안에서 잘라 씀)
+- `assets/characters/*.jpg`: 원형 아바타, hero 그림에서 잘라 씀
+- `design-reference/`: 화면 시안 4장 (레이아웃 기준, 사이트에는 안 쓰임)
+경로는 `js/config.js`의 `ASSETS`에서 바꿀 수 있어요.

@@ -3,6 +3,23 @@
 
 export const ASSETS = {
   hero: 'assets/hero.jpg',
+  // 진행 단계 여권 스탬프 (투명 PNG)
+  stamps: {
+    search:  'assets/stamps/search.png',
+    package: 'assets/stamps/package.png',
+    send:    'assets/stamps/send.png',
+    done:    'assets/stamps/done.png',
+  },
+  // 화면 속 장면 그림
+  scenes: {
+    empty:     'assets/scenes/empty.jpg',
+    school:    'assets/scenes/school.jpg',
+    routeMap:  'assets/scenes/route-map.jpg',
+    pkgLearn:  'assets/scenes/pkg-learn.jpg',
+    pkgWrite:  'assets/scenes/pkg-write.jpg',
+    pkgSend:   'assets/scenes/pkg-send.jpg',
+    done:      'assets/scenes/done-mailbox.jpg',
+  },
   characters: {
     aengdu: { name: '앵두', src: 'assets/characters/aengdu.jpg' },
     dali:   { name: '달이', src: 'assets/characters/dali.jpg' },

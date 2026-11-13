@@ -16,35 +16,39 @@
 <div class="app">
   <header class="site-header">
     <a class="brand" href="./">
-      <span class="brand__mark" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+      <span class="brand__mark" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
       <span><span class="brand__name">낙온 <em>ONTOPIA</em></span><span class="brand__sub">마음을 잇는 우정문화 패키지</span></span>
     </a>
     <a class="link-muted" href="#help">이용 안내</a>
   </header>
 
+  <div class="banner">
+    <img class="banner__img" data-asset="hero" alt="온토피아 친구들 달이·샤샤·앵두·콰티·호이가 편지와 여권을 들고 모여 있다">
+    <div class="banner__text">
+      <span class="banner__eyebrow">WELCOME TO ONTOPIA</span>
+      <p class="banner__title">우리 반의 마음 여행을<br>시작해요</p>
+    </div>
+  </div>
+
   <nav class="progress" aria-label="신청 단계">
     <ol id="progress">
-      <li data-step="1"><span class="progress__stamp">1</span><span class="progress__label">학교 찾기</span></li>
-      <li data-step="2"><span class="progress__stamp">2</span><span class="progress__label">패키지 구성</span></li>
-      <li data-step="3"><span class="progress__stamp">3</span><span class="progress__label">발송 준비</span></li>
-      <li data-step="4"><span class="progress__stamp">4</span><span class="progress__label">신청 완료</span></li>
+      <li data-step="1"><span class="progress__stamp"><img data-asset="stamps.search" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">학교 찾기</span></li>
+      <li data-step="2"><span class="progress__stamp"><img data-asset="stamps.package" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">패키지 구성</span></li>
+      <li data-step="3"><span class="progress__stamp"><img data-asset="stamps.send" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">발송 준비</span></li>
+      <li data-step="4"><span class="progress__stamp"><img data-asset="stamps.done" alt=""><span class="progress__check" aria-hidden="true">✓</span></span><span class="progress__label">신청 완료</span></li>
     </ol>
   </nav>
 
   <main>
     <!-- 1. 학교 찾기 -->
     <section class="step" id="step-1" aria-labelledby="t1">
-      <div class="hero">
-        <div>
-          <span class="hero__eyebrow">WELCOME TO ONTOPIA</span>
-          <h1 id="t1">우리 반의 마음 여행을 시작해요</h1>
-          <p class="muted">배우고, 쓰고, 실제로 보내는 우정문화 수업을 한 번의 신청으로 준비하세요.</p>
-        </div>
-        <img class="hero__img" data-asset="hero" alt="온토피아 애니메이션 장면: 우체국 안에서 앵두가 우체통 앞을 날고 있다">
+      <div class="step__head">
+        <img class="step__stamp" data-asset="stamps.search" alt="">
+        <div><h1 id="t1">우리 학교 찾기</h1><p class="muted">배우고, 쓰고, 실제로 보내는 우정문화 수업을 한 번의 신청으로 준비하세요.</p></div>
       </div>
 
-      <div class="panel">
-        <label class="label" for="school-q">우리 학교를 찾아주세요</label>
+      <div class="search-card">
+        <label class="label sr-only" for="school-q">우리 학교를 찾아주세요</label>
         <div class="search">
           <svg class="search__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
           <input class="field" id="school-q" type="search" placeholder="학교 이름 (예: 의귀초)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="school-list">
@@ -61,36 +65,48 @@
       </div>
 
       <div id="school-result"></div>
-      <button class="btn btn--primary btn--block" id="go-2" type="button" disabled>우리 학교로 시작하기</button>
+      <button class="btn btn--primary btn--cta" id="go-2" type="button" disabled>우리 학교로 시작하기 <span aria-hidden="true">→</span></button>
     </section>
 
     <!-- 2. 패키지 구성 -->
     <section class="step" id="step-2" aria-labelledby="t2" hidden>
-      <h2 id="t2">우리 반 온토피아 패키지</h2>
+      <div class="step__head">
+        <img class="step__stamp" data-asset="stamps.package" alt="">
+        <div><h2 id="t2">우리 반 온토피아 패키지</h2><p class="muted">배우기·쓰기·보내기가 한 상자로 와요. 학년·반과 학생 수만 알려 주세요.</p></div>
+      </div>
       <div class="grid-2">
         <label class="label" for="cls">학년·반<input class="field" id="cls" type="text" value="3학년 2반"></label>
         <label class="label" for="count">학생 수<input class="field" id="count" type="number" min="1" max="40" value="20"></label>
       </div>
       <div class="packages">
         <article class="package package--learn">
-          <div class="package__head"><img data-character="aengdu" alt=""><div><small><span data-character-name="aengdu"></span>가 안내해요</small><h3>배우기</h3></div></div>
+          <img class="package__art" data-asset="scenes.pkgLearn" alt="">
+          <img class="package__avatar" data-character="aengdu" alt="">
+          <div class="package__head"><small><span data-character-name="aengdu"></span>가 안내해요</small><h3>배우기</h3></div>
           <ul><li>AI 애니메이션 6편</li><li>편지 예절부터 우체국 전달 과정까지</li><li>교사용 수업안</li></ul>
         </article>
         <article class="package package--write">
-          <div class="package__head"><img data-character="dali" alt=""><div><small><span data-character-name="dali"></span>가 안내해요</small><h3>쓰기</h3></div></div>
+          <img class="package__art" data-asset="scenes.pkgWrite" alt="">
+          <img class="package__avatar" data-character="dali" alt="">
+          <div class="package__head"><small><span data-character-name="dali"></span>가 안내해요</small><h3>쓰기</h3></div>
           <ul><li id="kit-count">편지지·봉투 20세트</li><li>온토피아 여권, 우표 꾸미기 재료</li><li>영상과 이어지는 월간 활동지</li></ul>
         </article>
         <article class="package package--send">
-          <div class="package__head"><img data-character="hoi" alt=""><div><small><span data-character-name="hoi"></span>가 안내해요</small><h3 id="send-title">보내기</h3></div></div>
+          <img class="package__art" data-asset="scenes.pkgSend" alt="">
+          <img class="package__avatar" data-character="hoi" alt="">
+          <div class="package__head"><small><span data-character-name="hoi"></span>가 안내해요</small><h3 id="send-title">보내기</h3></div>
           <ul id="send-list"></ul>
         </article>
       </div>
-      <div class="actions"><button class="btn" type="button" data-go="1">이전</button><button class="btn btn--primary" type="button" id="go-3">다음: 발송 준비</button></div>
+      <div class="actions"><button class="btn" type="button" data-go="1">이전</button><button class="btn btn--primary" type="button" id="go-3">다음: 발송 준비 <span aria-hidden="true">→</span></button></div>
     </section>
 
     <!-- 3. 발송 준비 -->
     <section class="step" id="step-3" aria-labelledby="t3" hidden>
-      <h2 id="t3">발송 준비</h2>
+      <div class="step__head">
+        <img class="step__stamp" data-asset="stamps.send" alt="">
+        <div><h2 id="t3">발송 준비</h2></div>
+      </div>
       <div class="guide" id="s3-guide"><img id="s3-guide-img" alt=""><div><b id="s3-guide-name"></b><p id="s3-guide-text"></p></div></div>
 
       <div id="flow-post">
@@ -117,7 +133,7 @@
           <button class="btn" type="button" id="refresh-status">주소 입력 현황 새로고침</button>
         </div>
         <div class="qr-sheet" id="qr-sheet" hidden></div>
-        <div>
+        <div class="postcards-wrap">
           <p style="margin:0 0 8px;font-weight:700">엽서 미리보기 <span class="muted" id="preview-name"></span></p>
           <div class="postcards">
             <div class="postcard" id="preview-front"><div class="postcard__text"><span class="muted">편지 사진이 여기에 인쇄돼요</span></div></div>
@@ -149,16 +165,16 @@
         </div>
       </div>
       <p class="status-msg" id="s3-error" hidden></p>
-      <div class="actions"><button class="btn" type="button" data-go="2">이전</button><button class="btn btn--primary" type="button" id="submit">신청하기</button></div>
+      <div class="actions"><button class="btn" type="button" data-go="2">이전</button><button class="btn btn--primary" type="button" id="submit">✓ 신청하기</button></div>
     </section>
 
     <!-- 4. 신청 완료 -->
     <section class="step" id="step-4" aria-labelledby="t4" hidden>
       <div class="done">
-        <span class="done__icon" aria-hidden="true"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8"/><path d="M3 7l9 6 9-6"/><path d="M16 19l2 2 4-4"/></svg></span>
+        <img class="done__stamp" data-asset="stamps.done" alt="">
         <h2 id="t4">우리 반의 마음 여행이 시작됐어요</h2>
         <p class="muted">온토피아 패키지 신청이 접수됐어요.</p>
-        <dl class="summary" id="summary"></dl>
+        <div class="done__grid"><dl class="summary" id="summary"></dl><img class="done__scene" data-asset="scenes.done" alt="달이가 온토피아 우체통에 편지를 넣고 있다"></div>
         <div class="guide guide--gold" style="width:100%;text-align:left"><img data-character="kwati" alt=""><div><b data-character-name="kwati"></b><p>여권에 마지막 도장 꽝! 편지가 실제로 도착하면 다시 알려 줄게요.</p></div></div>
         <p class="muted">신청 완료와 편지 발송 완료는 다른 단계예요. 발송이 끝나면 따로 알려 드려요.</p>
       </div>

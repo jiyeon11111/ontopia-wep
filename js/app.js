@@ -17,7 +17,7 @@ const state = {
 
 // ---------- 그림 ----------
 function applyAssets(root = document) {
-  root.querySelectorAll('[data-asset]').forEach(img => { img.src = ASSETS[img.dataset.asset]; });
+  root.querySelectorAll('[data-asset]').forEach(img => { img.src = img.dataset.asset.split('.').reduce((o, k) => o[k], ASSETS); });
   root.querySelectorAll('[data-character]').forEach(img => {
     const c = ASSETS.characters[img.dataset.character];
     img.src = c.src;
@@ -25,6 +25,12 @@ function applyAssets(root = document) {
   });
   root.querySelectorAll('[data-character-name]').forEach(el => { el.textContent = ASSETS.characters[el.dataset.characterName].name; });
 }
+
+const EMPTY_HTML = `
+  <div class="empty">
+    <img src="${ASSETS.scenes.empty}" alt="">
+    <div><b>학교를 고르면 발송 방법이 여기에 나와요</b><p class="muted">우체국까지 거리와 학교 위치(도시·농어촌)를 보고 상자 우체통 또는 단체 모바일 엽서를 골라 드려요.</p></div>
+  </div>`;
 
 // ---------- 단계 이동 ----------
 function go(n) {
@@ -34,7 +40,6 @@ function go(n) {
     const done = s < n || n === 4;
     li.classList.toggle('is-done', done);
     if (s === n && !done) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current');
-    li.querySelector('.progress__stamp').textContent = done ? '✓' : s;
   });
   if (n === 2) renderPackage();
   if (n === 3) renderSend();
@@ -66,7 +71,7 @@ function setupSearch() {
   const close = () => { list.hidden = true; q.setAttribute('aria-expanded', 'false'); cursor = -1; };
   const draw = () => {
     list.innerHTML = hits.length
-      ? hits.map((s, i) => `<li><button type="button" role="option" data-i="${i}" aria-selected="${i === cursor}"><span>${esc(s.name)}</span><small>${esc(s.sido)} ${esc(s.sigungu)}</small></button></li>`).join('')
+      ? hits.map((s, i) => `<li><button type="button" role="option" data-i="${i}" aria-selected="${i === cursor}"><span class="hit__name">${esc(s.name)}<small>${esc(s.sido)} ${esc(s.sigungu)}</small></span><span class="tag ${s.area !== '동' ? 'tag--rural' : 'tag--city'}">${s.area !== '동' ? '농어촌' : '도시'}</span></button></li>`).join('')
       : '<li class="muted" style="padding:9px 12px">찾는 학교가 없어요. 학교 이름을 다시 확인해 주세요.</li>';
     list.hidden = false; q.setAttribute('aria-expanded', 'true');
   };
@@ -108,20 +113,30 @@ function selectSchool(s) {
             : `전국 도시 학교 ${STATS.city.toLocaleString()}곳에 해당`;
   $('school-result').innerHTML = `
     <div class="result">
-      <div class="panel">
-        <span class="tag ${rural ? 'tag--rural' : 'tag--city'}">${rural ? '농어촌(읍·면)' : '도시(동)'}</span>
-        <span class="school-name">${esc(s.name)}</span>
-        <p class="muted">${esc(s.sido)} ${esc(s.sigungu)} · 가장 가까운 우체국 <b>${esc(s.po)}</b></p>
+      <div class="card school-card">
+        <img class="school-card__img" src="${ASSETS.scenes.school}" alt="">
+        <div class="school-card__body">
+          <span class="school-name">${esc(s.name)}</span>
+          <p class="muted">${esc(s.sido)} ${esc(s.sigungu)}</p>
+          <div class="pills"><span class="tag ${rural ? 'tag--rural' : 'tag--city'}">${rural ? '농어촌(읍·면)' : '도시(동)'}</span><span class="tag tag--soft">우체국 ${esc(s.po)}</span></div>
+        </div>
+        <span class="school-card__check" aria-hidden="true">✓</span>
+      </div>
+      <div class="card dist-card">
+        <span class="muted">가장 가까운 우체국까지</span>
         <span class="distance">${km(s.dist)}<small>아이 걸음 약 ${walkMin(s.dist)}분</small></span>
         <div class="meter" aria-hidden="true"><span class="meter__bar" style="width:${pct}%;background:${far ? 'var(--color-rural)' : 'var(--color-city)'}"></span><span class="meter__mark"></span></div>
-        <div class="meter__labels"><span>0</span><span>2km · 30분 기준</span><span>6km+</span></div>
+        <div class="meter__labels"><span>0</span><span class="meter__badge">2km</span><span>6km+</span></div>
       </div>
-      <div class="route ${rt === 'post' ? 'route--post' : 'route--box'}">
-        <span class="muted">자동 배정된 발송 방법</span>
-        <strong>${rt === 'post' ? '단체 모바일 엽서' : '모아 보내는 상자 우체통'}</strong>
-        <span class="muted">${why}</span>
-        <span class="route__flow">${rt === 'post' ? '명단 등록 → 편지 사진 일괄 업로드 → 보호자 주소 입력 → 발송' : '둘 곳 고르기 → 보내는 날 정하기 → 신청'}</span>
-        <span class="muted">${group}</span>
+      <div class="card route ${rt === 'post' ? 'route--post' : 'route--box'}">
+        <img class="route__map" src="${ASSETS.scenes.routeMap}" alt="">
+        <div class="route__body">
+          <span class="muted">자동 배정된 발송 방법</span>
+          <strong>${rt === 'post' ? '단체 모바일 엽서' : '모아 보내는 상자 우체통'}</strong>
+          <span class="route__why">${why}</span>
+          <span class="route__flow">${rt === 'post' ? '명단 등록 → 편지 사진 일괄 업로드 → 보호자 주소 입력 → 발송' : '둘 곳 고르기 → 보내는 날 정하기 → 신청'}</span>
+          <span class="muted">${group}</span>
+        </div>
       </div>
     </div>`;
   $('go-2').disabled = false;
@@ -309,10 +324,11 @@ async function init() {
   document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => go(+b.dataset.go)));
   $('restart').addEventListener('click', () => {
     Object.assign(state, { school: null, letters: [], order: [], application: null, addr: {} });
-    $('roster').value = ''; $('school-q').value = ''; $('school-result').innerHTML = '';
+    $('roster').value = ''; $('school-q').value = ''; $('school-result').innerHTML = EMPTY_HTML;
     $('qr-sheet').hidden = true; $('go-2').disabled = true; go(1);
   });
   window.addEventListener('focus', () => { if (!$('step-3').hidden) refreshStatus(); });
+  $('school-result').innerHTML = EMPTY_HTML;
   go(1);
   await loadSchools();
 }
