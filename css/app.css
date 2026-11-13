@@ -28,7 +28,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
     url(../assets/frame/right.jpg) right top / 1.6% 100% no-repeat,
     var(--color-page);
 }
-.scene__top { position: relative; height: max(150px, calc(min(100vw, 1680px) * 140 / 1299)); }
+.scene__top { position: relative; aspect-ratio: 1299 / 140; }
 .scene__top-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .brand { position: absolute; left: 15%; top: 14%; display: none; }
 
@@ -47,13 +47,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 /* ===== 진행 단계 알약 ===== */
 .stepper {
-  position: absolute; z-index: 2; left: 50%; top: 31%; transform: translateX(-50%);
-  width: min(44%, 600px); min-width: 330px;
+  position: absolute; z-index: 2; left: 27.4%; width: 45.2%; top: 29%; height: 67%;
+  display: flex; align-items: center;
   background: linear-gradient(#fffaf0, #fbf1e1);
   border-radius: var(--radius-pill);
   box-shadow: 0 8px 20px rgba(60, 50, 20, .18), inset 0 2px 0 #fff;
-  padding: 10px 34px 10px;
+  padding: 0 34px;
 }
+.stepper ol { flex: 1; }
 .stepper ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); position: relative; }
 .stepper ol::before { content: ""; position: absolute; left: 12.5%; right: 12.5%; top: 20px; height: 4px; border-radius: 2px; background: #c9d6cc; }
 .stepper li { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; }
@@ -185,8 +186,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .route__steps span.is-on { background: var(--color-mint-soft); color: var(--color-mint-strong); border: 2px solid #9fd0bd; }
 .route__group { font-size: var(--text-xs); color: var(--color-text-muted); }
 
-.friends { position: relative; align-self: stretch; margin: -30px -30px -26px 0; border-radius: 0 var(--radius-xl) 0 0; overflow: hidden; }
-.friends img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 22%); mask-image: linear-gradient(90deg, transparent 0, #000 22%); }
+.friends { position: relative; align-self: stretch; min-height: 640px; margin: -30px -30px -26px 0; border-radius: 0 var(--radius-xl) 0 0; overflow: hidden; background: linear-gradient(#f4efe2, #e3eedb); -webkit-mask-image: linear-gradient(#000 88%, transparent); mask-image: linear-gradient(#000 88%, transparent); }
+.friends__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 50%; filter: blur(5px) saturate(.85); opacity: .55; transform: scale(1.1); }
+.friends::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, var(--color-board) 0, rgba(251, 242, 230, 0) 24%), linear-gradient(0deg, rgba(220, 236, 214, .9) 0, rgba(220, 236, 214, 0) 40%); }
+.friends__c { position: absolute; z-index: 2; height: auto; filter: drop-shadow(0 8px 10px rgba(70, 60, 30, .22)); }
+.friends__c--shasha { left: 20%; top: 9%; width: 40%; }
+.friends__c--aengdu { right: 0; top: 2%; width: 56%; z-index: 4; }
+.friends__c--hoi { right: 2%; top: 34%; width: 42%; z-index: 3; }
+.friends__c--dali { left: 4%; top: 38%; width: 44%; z-index: 3; }
+.friends__c--kwati { left: 30%; top: 50%; width: 38%; z-index: 5; }
 
 /* ===== 2단계 ===== */
 .filterbar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; padding: 16px 22px; border-radius: var(--radius-lg); background: #fcf6ed; border: 1.5px solid var(--color-line); box-shadow: var(--shadow-card); }
@@ -371,6 +379,8 @@ td.name { font-weight: 700; }
 
 /* ===== 반응형 ===== */
 @media (max-width: 1100px) {
+  .scene__top { aspect-ratio: auto; height: 136px; }
+  .stepper { left: 50%; transform: translateX(-50%); width: min(620px, calc(100% - 24px)); top: 26px; height: 100px; }
   .step, .step--1, .step--3, .step--4 { grid-template-columns: 1fr; }
   .friends { display: none; }
   .sidebar { margin-top: 56px; }
@@ -379,8 +389,8 @@ td.name { font-weight: 700; }
 }
 @media (max-width: 760px) {
   .scene { background: var(--color-page); }
-  .scene__top { height: 132px; }
-  .stepper { top: 24px; width: calc(100% - 24px); min-width: 0; padding: 10px 12px; }
+  .scene__top { aspect-ratio: auto; height: 136px; }
+  .stepper { left: 12px; transform: none; width: calc(100% - 24px); top: 26px; height: 100px; padding: 0 12px; }
   .stepper__label { font-size: 11px; padding: 0 6px; }
   .board { margin: -4px 0 0; padding: 20px 14px 18px; border-radius: 26px 26px 0 0; }
   .head { min-height: 0; gap: 12px; align-items: flex-start; }
