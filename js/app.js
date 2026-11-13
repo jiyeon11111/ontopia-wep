@@ -398,8 +398,26 @@ function restart() {
 }
 
 // ---------- 시작 ----------
+function openApp() {
+  document.body.classList.remove('is-intro');
+  const sc = document.querySelector('.scene');
+  sc.classList.add('is-entering');
+  setTimeout(() => sc.classList.remove('is-entering'), 600);
+  if (location.hash !== '#apply') history.pushState(null, '', '#apply');
+  window.scrollTo(0, 0);
+  setTimeout(() => $('school-q').focus({ preventScroll: true }), 400);
+}
+function showIntro() {
+  document.body.classList.add('is-intro');
+  window.scrollTo(0, 0);
+}
+
 async function init() {
   applyAssets();
+  $('intro-start').addEventListener('click', openApp);
+  $('to-intro').addEventListener('click', e => { e.preventDefault(); history.pushState(null, '', location.pathname); showIntro(); });
+  window.addEventListener('popstate', () => (location.hash === '#apply' ? document.body.classList.remove('is-intro') : showIntro()));
+  if (location.hash === '#apply') document.body.classList.remove('is-intro');
   setupSearch();
   setupPackage();
   setupRoster();

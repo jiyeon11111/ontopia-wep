@@ -20,6 +20,43 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .muted { color: var(--color-text-muted); font-size: var(--text-sm); margin: 0; }
 .status-msg { font-size: var(--text-sm); color: var(--color-city); margin: 0; font-weight: 700; }
 
+/* ===== 오프닝 화면 ===== */
+body.is-intro .scene { display: none; }
+body:not(.is-intro) .intro { display: none; }
+.intro { position: relative; min-height: 100vh; min-height: 100svh; overflow: hidden; display: flex; align-items: center; background: linear-gradient(90deg, #e3f5ee, #d9efe8); }
+.intro__bg { position: absolute; top: 0; right: 0; width: 88vw; height: 100%; max-width: none; object-fit: cover; object-position: 100% 50%; }
+.intro::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, #e3f5ee 0, #e3f5ee 12vw, rgba(227, 245, 238, .8) 26vw, rgba(227, 245, 238, 0) 38vw); }
+.intro__panel { position: relative; z-index: 2; width: min(460px, 29vw); margin-left: max(5vw, 32px); padding: 28px 0; display: flex; flex-direction: column; gap: 16px; }
+.intro__logo { width: min(440px, 100%); height: auto; margin-left: -6px; filter: drop-shadow(0 6px 12px rgba(60, 120, 170, .18)); }
+.intro__eyebrow { margin: 0; font-size: var(--text-sm); font-weight: 700; letter-spacing: .02em; color: var(--color-mint-strong); }
+.intro__title { margin: 0; font-family: var(--font-display); font-size: clamp(24px, 2.4vw, 38px); line-height: 1.25; font-weight: 900; color: var(--color-title); }
+.intro__lead { margin: 0; font-size: clamp(15px, 1.25vw, 18px); color: #4f655d; max-width: 30em; }
+.intro__facts { list-style: none; margin: 4px 0 0; padding: 0; display: flex; gap: 8px; }
+.intro__facts li { flex: 1 1 0; display: flex; flex-direction: column; padding: 10px 12px; border-radius: 18px; background: rgba(255, 252, 245, .9); box-shadow: var(--shadow-card); min-width: 0; }
+.intro__facts b { font-size: 18px; font-weight: 900; color: var(--color-primary); line-height: 1.2; }
+.intro__facts span { font-size: 11.5px; color: var(--color-text-muted); }
+.intro__actions { margin-top: 8px; }
+.btn--intro { padding: 18px 34px; font-size: 19px; }
+.btn--intro svg { width: 24px; height: 24px; }
+.intro__note { margin: 0; font-size: 12.5px; color: var(--color-text-muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro__bg { animation: intro-zoom 14s ease-out both; }
+  .intro__panel > * { animation: intro-up .7s cubic-bezier(.2, .8, .2, 1) both; }
+  .intro__panel > :nth-child(1) { animation-name: intro-pop; animation-duration: .9s; }
+  .intro__panel > :nth-child(2) { animation-delay: .15s; }
+  .intro__panel > :nth-child(3) { animation-delay: .25s; }
+  .intro__panel > :nth-child(4) { animation-delay: .35s; }
+  .intro__panel > :nth-child(5) { animation-delay: .45s; }
+  .intro__panel > :nth-child(6) { animation-delay: .55s; }
+  .intro__panel > :nth-child(7) { animation-delay: .65s; }
+  .scene.is-entering { animation: scene-in .5s ease both; }
+}
+@keyframes intro-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+@keyframes intro-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes intro-pop { 0% { opacity: 0; transform: scale(.85) translateY(10px); } 70% { opacity: 1; transform: scale(1.03); } 100% { transform: none; } }
+@keyframes scene-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
 /* ===== 틀: 위 풍경 · 큰 판 · 아래 풍경 ===== */
 .scene {
   max-width: 1680px; margin: 0 auto; position: relative;
@@ -385,6 +422,21 @@ td.name { font-weight: 700; }
   .step--3 .step__aside { margin-top: 0; }
   .done-scene > img { aspect-ratio: 16 / 9; }
 }
+/* 오프닝: 태블릿·휴대폰 (그림 위, 글 아래) */
+@media (max-width: 900px) {
+  .intro { flex-direction: column; align-items: stretch; background: var(--color-board); }
+  .intro__bg { position: relative; inset: auto; right: auto; width: 100%; min-width: 0; height: 46vh; height: 46svh; min-height: 260px; aspect-ratio: auto; object-position: 70% 60%; }
+  .intro::before { display: none; }
+  .intro__panel { width: auto; margin: -34px 0 0; padding: 22px 20px calc(110px + env(safe-area-inset-bottom, 0px)); border-radius: 28px 28px 0 0; background: var(--color-board); gap: 12px; align-items: center; text-align: center; box-shadow: 0 -10px 24px rgba(80, 70, 40, .10); }
+  .intro__logo { width: min(320px, 82%); margin: -78px 0 0; }
+  .intro__facts { justify-content: center; gap: 8px; }
+  .intro__facts li { min-width: 0; flex: 1 1 0; padding: 8px 10px; }
+  .intro__facts b { font-size: 17px; }
+  .intro__facts span { font-size: 11px; }
+  .intro__actions { position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; margin: 0; padding: 12px 16px calc(12px + env(safe-area-inset-bottom, 0px)); background: rgba(251, 242, 230, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 -6px 20px rgba(80, 70, 40, .12); border-radius: 22px 22px 0 0; }
+  .btn--intro { width: 100%; padding: 16px 20px; font-size: 17px; }
+}
+
 /* ===== 휴대폰 (760px 이하) =====
    앱처럼 쓰는 화면: 위는 짧은 풍경 + 진행 단계, 아래는 고정 버튼 바.
    GPT 모바일 시안을 받으면 이 블록만 다듬는다. */
