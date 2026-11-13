@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>받는 분 주소 입력 · 낙온 ONTOPIA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/app.css">
+<script type="module" src="js/guardian.js"></script>
+</head>
+<body>
+<main class="guardian">
+  <header class="site-header">
+    <span class="brand"><span class="brand__mark" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></span>
+    <span><span class="brand__name">낙온 <em>ONTOPIA</em></span><span class="brand__sub">아이 편지 받는 분 주소 입력</span></span></span>
+  </header>
+
+  <section class="step" id="form-view" hidden>
+    <div class="guide guide--lavender"><img data-character="hoi" alt=""><div><b data-character-name="hoi"></b><p id="intro"></p></div></div>
+    <form id="addr-form" class="panel" novalidate>
+      <label class="label" for="to-name">받는 분 이름<input class="field" id="to-name" autocomplete="name" required></label>
+      <label class="label" for="to-zip">우편번호<input class="field" id="to-zip" inputmode="numeric" maxlength="5" pattern="\d{5}" required></label>
+      <label class="label" for="to-addr">주소<input class="field" id="to-addr" autocomplete="street-address" required></label>
+      <label class="label" for="to-addr2">상세 주소<input class="field" id="to-addr2"></label>
+      <label class="check" for="agree"><input id="agree" type="checkbox" required> 편지 발송을 위해 위 주소를 쓰는 데 동의해요. 주소는 발송 후 지워요.</label>
+      <p class="status-msg" id="form-error" hidden></p>
+      <button class="btn btn--primary btn--block" type="submit">주소 보내기</button>
+    </form>
+    <p class="muted">선생님에게는 입력했는지 여부만 보이고, 주소는 보이지 않아요.</p>
+  </section>
+
+  <section class="step" id="done-view" hidden>
+    <div class="done">
+      <h2>주소를 받았어요</h2>
+      <p class="muted" id="done-text"></p>
+    </div>
+  </section>
+
+  <section class="step" id="error-view" hidden>
+    <h2>링크를 다시 확인해 주세요</h2>
+    <p class="muted">가정통신문의 QR을 다시 찍어 주세요. 계속 열리지 않으면 담임 선생님께 알려 주세요.</p>
+  </section>
+</main>
+</body>
+</html>

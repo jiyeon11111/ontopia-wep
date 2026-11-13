@@ -1,0 +1,58 @@
+/*
+  디자인 토큰. 색·글꼴·크기·모서리·그림자는 여기서만 바꾼다.
+  GPT(디자인)에서 받은 :root 값을 이 파일에 덮어쓰면 화면 전체에 반영된다.
+  데이터 색 규칙: --city(도시, 코랄 계열) / --rural(농어촌, 남색 계열)은 분석 자료와 같은 의미로 유지한다.
+*/
+:root {
+  /* 브랜드 */
+  --color-bg: #fff8ed;          /* Letter Cream */
+  --color-surface: #ffffff;
+  --color-text: #304c46;        /* Forest Ink */
+  --color-text-muted: #6a7c76;
+  --color-border: #ece3d2;
+  --color-primary: #304c46;     /* 주요 버튼 */
+  --color-on-primary: #ffffff;
+  --color-mint: #83b9aa;        /* Ontopia Mint */
+  --color-mint-soft: #e5f2ed;
+  --color-mint-strong: #2f6b5d;
+  --color-gold: #d9ad62;        /* Stamp Gold */
+  --color-gold-soft: #fbf0d9;
+  --color-lavender-soft: #f0ebf8;
+  --color-peach-soft: #fdeee3;
+
+  /* 데이터 의미 색 */
+  --color-city: #cf5a43;
+  --color-city-soft: #fbe6df;
+  --color-rural: #2b5797;
+  --color-rural-soft: #e2ebf7;
+
+  /* 상태 */
+  --color-ok: #3f7d4e;
+  --color-ok-soft: #e3f1e5;
+  --color-wait: #a46a0a;
+  --color-wait-soft: #fdf1d8;
+
+  /* 글꼴 */
+  --font-body: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-display: "Noto Sans KR", -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 15px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 30px;
+  --text-num: 40px;
+
+  /* 간격·모서리·그림자 */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-card: none;
+}
