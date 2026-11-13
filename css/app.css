@@ -248,6 +248,11 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .sidebar__gift b { display: block; font-size: var(--text-sm); }
 .sidebar__gift small { display: block; font-size: var(--text-xs); color: var(--color-text-muted); }
 
+/* 패키지 넘기기 안내 (휴대폰에서만 보임) */
+.swipe-hint { display: none; align-items: center; justify-content: center; gap: 6px; margin: -6px 0 0; font-size: 12px; color: var(--color-text-muted); }
+.swipe-hint i { width: 6px; height: 6px; border-radius: 50%; background: #cdbfa6; }
+.swipe-hint i.is-on { width: 18px; border-radius: 3px; background: var(--color-primary); }
+
 /* ===== 3단계 ===== */
 .step--3 { grid-template-columns: minmax(0, 1fr) minmax(300px, 38%); }
 .step--3 .step__aside { display: flex; flex-direction: column; gap: 18px; margin-top: 128px; }
@@ -380,42 +385,164 @@ td.name { font-weight: 700; }
   .step--3 .step__aside { margin-top: 0; }
   .done-scene > img { aspect-ratio: 16 / 9; }
 }
+/* ===== 휴대폰 (760px 이하) =====
+   앱처럼 쓰는 화면: 위는 짧은 풍경 + 진행 단계, 아래는 고정 버튼 바.
+   GPT 모바일 시안을 받으면 이 블록만 다듬는다. */
 @media (max-width: 760px) {
+  body { font-size: 15px; }
   .scene { background: var(--color-page); }
-  .scene__top { aspect-ratio: auto; height: 140px; }
-  .stepper { left: 12px; transform: none; width: calc(100% - 24px); top: 16px; height: 90px; padding: 0 12px; }
+
+  /* 위쪽: 짧은 풍경 띠 + 진행 단계 */
+  .scene__top { aspect-ratio: auto; height: 112px; }
+  .scene__top-img { object-position: 50% 0; }
+  .stepper { left: 10px; right: 10px; transform: none; width: auto; top: 12px; height: 76px; padding: 0 8px; }
+  .stepper ol::before, .stepper li.is-done::after, .stepper li[aria-current]::after { top: 16px; }
+  .stepper__dot { width: 32px; height: 32px; font-size: 15px; border-width: 2.5px; }
+  .stepper__chk { width: 16px; height: 16px; }
+  .stepper li[aria-current] .stepper__dot { width: 38px; height: 38px; margin: -3px 0; border-width: 3px; }
   .stepper__label { font-size: 11px; padding: 0 6px; }
-  .board { margin: -4px 0 0; padding: 20px 14px 18px; border-radius: 26px 26px 0 0; }
-  .head { min-height: 0; gap: 12px; align-items: flex-start; }
-  .head h1, .head h2 { font-size: 22px; }
-  .head__sub { font-size: var(--text-sm); }
-  .head__coin { width: 68px; height: 68px; }
-  .head__icon { width: 64px; height: 64px; }
-  .head__icon svg { width: 34px; height: 34px; }
+
+  /* 판: 화면 꽉 차게, 아래 고정 바 만큼 여백 */
+  .board { margin: -10px 0 0; padding: 18px 14px calc(104px + env(safe-area-inset-bottom, 0px)); border-radius: 24px 24px 0 0; }
+  .step, .step--1, .step--3, .step--4 { grid-template-columns: 1fr; gap: 16px; }
+  .step__main { gap: 14px; }
+  .scene__bottom-img { height: 80px; }
+  .credit { margin-top: 18px; font-size: 10.5px; }
+
+  /* 단계 머리 */
+  .head { min-height: 0; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .head > div { flex: 1 1 0; min-width: 0; }
+  .head h1, .head h2 { font-size: 21px; }
+  .head__sub { font-size: 13.5px; margin-top: 3px; }
+  .head__coin { width: 56px; height: 56px; }
+  .head__icon { width: 56px; height: 56px; }
+  .head__icon svg { width: 30px; height: 30px; }
   .head__postage { display: none; }
-  .search__input { font-size: 17px; padding: 16px 18px 16px 56px; }
-  .search__icon { left: 20px; width: 24px; height: 24px; }
-  .empty, .result, .route, .packages, .grid-2, .intake, .done-grid { grid-template-columns: 1fr; }
-  .empty img { max-width: 240px; margin: 0 auto; }
-  .school-card__img { width: 110px; height: 88px; }
-  .filterbar { gap: 12px; padding: 14px; }
-  .filterbar__sep { display: none; }
-  .select select { min-width: 120px; }
-  .guide-bubble { margin-left: 0; }
-  .head:has(.guide-bubble) { flex-wrap: wrap; }
-  .head > div { flex: 1 1 200px; }
-  .head .guide-bubble { flex: 1 1 100%; max-width: none; }
-  .done-banner { padding: 14px; gap: 12px; }
-  .done-banner__seal { width: 72px; height: 72px; }
-  .done-banner h2 { font-size: 21px; }
-  .nav-row { flex-wrap: wrap; }
-  .btn--back { min-width: 0; flex: 1; }
-  .btn--next { min-width: 0; flex: 2; }
-  .btn--cta { min-width: 0; width: 100%; }
+  .head .guide-bubble { flex: 1 1 100%; max-width: none; margin: 0; }
+
+  /* 고정 버튼 바 */
+  .cta-row, .nav-row {
+    position: fixed; z-index: 20; left: 0; right: 0; bottom: 0; margin: 0;
+    padding: 12px 14px calc(12px + env(safe-area-inset-bottom, 0px));
+    background: rgba(251, 242, 230, .94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    box-shadow: 0 -6px 20px rgba(80, 70, 40, .12); border-radius: 22px 22px 0 0;
+  }
+  .nav-row { display: grid; grid-template-columns: auto 1fr; gap: 10px; }
   .spark { display: none; }
-  .info__img { width: 92px; height: 72px; }
+  .btn--cta { min-width: 0; width: 100%; padding: 15px 20px; font-size: 17px; }
+  .btn--back { min-width: 0; padding: 13px 18px; font-size: 15px; }
+  .btn--back span { display: none; }
+  .btn--next { min-width: 0; padding: 14px 20px; font-size: 16px; }
+  .btn { min-height: 48px; }
+
+  /* 1단계 */
+  .search__input { font-size: 17px; padding: 15px 16px 15px 52px; box-shadow: 0 0 0 4px #e3f1e8, 0 6px 14px rgba(80, 120, 100, .12); }
+  .search__icon { left: 19px; width: 22px; height: 22px; }
+  .search__list { left: 0; right: 0; max-height: 52vh; }
+  .search__list button { padding: 13px 12px; gap: 10px; }
+  .hit__ico { width: 22px; height: 22px; }
+  .hit__name small { display: block; margin: 0; }
+  .chips { flex-wrap: nowrap; overflow-x: auto; padding: 2px 0 4px; scrollbar-width: none; margin: 0 -14px; padding-left: 14px; padding-right: 14px; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; padding: 8px 14px; }
+  .empty { grid-template-columns: 1fr; padding: 12px 14px 16px; text-align: center; gap: 8px; }
+  .empty img { max-width: 220px; margin: 0 auto; }
+  .empty b { font-size: 16px; }
+  .result { grid-template-columns: 1fr; gap: 12px; }
+  .school-card { padding: 10px; gap: 12px; }
+  .school-card__img { width: 96px; height: 80px; border-radius: 12px; }
+  .school-name { font-size: 18px; }
+  .school-card .pills { margin-top: 6px; }
+  .school-card__check { width: 34px; height: 34px; right: -6px; top: -8px; }
+  .dist-card { padding: 14px 16px 10px; }
+  .distance { font-size: 28px; }
+  .route { grid-template-columns: 1fr; gap: 10px; padding: 10px; }
+  .route__map { min-height: 0; aspect-ratio: 430 / 126; height: auto; }
+  .route__body { padding: 0 4px 4px; }
+  .route strong { font-size: 20px; }
+  .route__steps span { padding: 5px 11px; font-size: 12px; }
+
+  /* 2단계: 반 정보 한 줄, 패키지는 옆으로 넘기는 카드 */
+  .filterbar { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; border-radius: 20px; }
+  .filterbar__item { gap: 8px; min-width: 0; }
+  .filterbar__item:nth-of-type(3) { grid-column: 1 / -1; justify-content: space-between; }
+  .filterbar__icon { width: 26px; height: 26px; }
+  .filterbar__icon--wide { width: 30px; height: 30px; }
+  .filterbar__sep { display: none; }
+  .select { flex: 1; min-width: 0; }
+  .select select { min-width: 0; width: 100%; padding: 11px 36px 11px 14px; font-size: 16px; }
+  .select svg { right: 10px; }
+  .stepnum button { width: 52px; }
+  .stepnum input { width: 64px; font-size: 18px; }
+  .packages {
+    display: grid; grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none;
+    gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    margin: 0 -14px; padding: 4px 14px 12px; scrollbar-width: none;
+  }
+  .packages::-webkit-scrollbar { display: none; }
+  .pkg { scroll-snap-align: center; padding: 6px 6px 8px; }
+  .pkg__coin { width: 72px; height: 72px; margin-top: -40px; }
+  .pkg__title { font-size: 15px; margin-top: 8px; }
+  .pkg__list { margin: 10px 0 12px; padding: 0 10px; gap: 7px; font-size: 13px; }
+  .pkg__list li::before { width: 19px; height: 19px; background-size: 13px; }
+  .pkg__pick { padding: 10px; font-size: 13px; }
+  .swipe-hint { display: flex; }
+  .sidebar { margin: 0; padding: 14px 12px 12px; gap: 10px; }
+  .sidebar__tag { display: none; }
+  .sidebar__title { font-size: 14px; padding: 4px 18px; margin: 0; }
+  .sidebar__card { padding: 12px; gap: 10px; }
+  .sidebar__rows { flex-direction: row; flex-wrap: wrap; gap: 6px 14px; padding-bottom: 10px; }
+  .sidebar__rows li { font-size: 13px; gap: 6px; }
+  .sidebar__rows svg { width: 20px; height: 20px; }
+  .sidebar__parts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0; }
+  .part { flex-direction: column; text-align: center; gap: 4px; }
+  .part__icon { width: 36px; height: 36px; }
+  .part b { font-size: 12.5px; }
+  .part small { font-size: 10.5px; }
+  .sidebar__gift { display: none; }
+
+  /* 3단계: 명단 표 → 학생 카드 목록 */
+  .step--3 .step__aside { margin-top: 0; gap: 14px; }
+  .board-card { padding: 14px; gap: 12px; border-radius: 20px; }
+  .board-card__title { font-size: 16px; }
+  .board-card__title svg { width: 24px; height: 24px; }
+  .intake { grid-template-columns: 1fr; gap: 10px; }
+  textarea.field { min-height: 110px; font-size: 16px; }
+  .dropzone { min-height: 96px; }
+  .table-wrap { border: none; background: none; overflow: visible; }
+  table, tbody { display: block; min-width: 0; }
+  thead { display: none; }
+  tbody { display: flex; flex-direction: column; gap: 8px; }
+  tbody tr { display: grid; grid-template-columns: 22px 44px 1fr auto; grid-template-areas: "n av name move" "n av letter move" "n av addr move"; align-items: center; column-gap: 10px; row-gap: 4px; padding: 10px 12px; border-radius: 16px; background: #fffaf2; border: 1.5px solid var(--color-line); }
+  tbody td { padding: 0; border: none; }
+  tbody td:nth-child(1) { grid-area: n; }
+  tbody td:nth-child(2) { grid-area: av; }
+  tbody td:nth-child(3) { grid-area: name; font-size: 15px; }
+  tbody td:nth-child(4) { grid-area: letter; }
+  tbody td:nth-child(5) { grid-area: addr; }
+  tbody td:nth-child(6) { grid-area: move; display: flex; flex-direction: column; gap: 6px; }
+  tbody td[colspan] { grid-column: 1 / -1; grid-row: 1 / -1; padding: 6px 2px; }
+  tbody tr:has(td[colspan]) { display: block; }
+  .icon-btn { width: 38px; height: 38px; font-size: 13px; }
+  .icon-btn + .icon-btn { margin-left: 0; }
+  .thumb { width: 56px; height: 40px; }
+  .postcard__from, .postcard__to { font-size: 9.5px; }
+  .sendcard__coin { width: 52px; top: -18px; }
+  .sendcard__actions { flex-direction: column; }
+  .sendcard__actions .btn { width: 100%; }
+  .grid-2 { grid-template-columns: 1fr; }
+
+  /* 4단계 */
+  .done-banner { padding: 14px; gap: 12px; }
+  .done-banner__seal { width: 64px; height: 64px; }
+  .done-banner h2 { font-size: 20px; }
+  .done-grid { grid-template-columns: 1fr; gap: 10px; }
+  .info { padding: 10px; gap: 12px; }
+  .info__img { width: 84px; height: 66px; }
+  .po-card { padding: 10px; }
   .po-card__map { display: none; }
-  .scene__bottom-img { height: 110px; }
+  .po-card > img:first-child { width: 84px; height: 52px; }
+  .done-scene > img { aspect-ratio: 16 / 10; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .slider__fill, .slider__knob { transition: all .5s ease; }

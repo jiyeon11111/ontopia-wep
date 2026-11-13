@@ -193,6 +193,12 @@ function setupPackage() {
   document.querySelectorAll('[data-count]').forEach(b => b.addEventListener('click', () => {
     const c = $('count'); c.value = Math.min(40, Math.max(1, (+c.value || 1) + +b.dataset.count)); renderPackage();
   }));
+  const pk = document.querySelector('.packages'), dots = [...document.querySelectorAll('#swipe-hint i')];
+  pk.addEventListener('scroll', () => {
+    const cards = [...pk.children], mid = pk.scrollLeft + pk.clientWidth / 2;
+    const i = cards.reduce((best, c, k) => Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid) < Math.abs(cards[best].offsetLeft + cards[best].offsetWidth / 2 - mid) ? k : best, 0);
+    dots.forEach((d, k) => d.classList.toggle('is-on', k === i));
+  }, { passive: true });
   document.querySelectorAll('[data-part-toggle]').forEach(cb => cb.addEventListener('change', () => {
     parts[cb.dataset.partToggle] = cb.checked; renderPackage();
   }));
