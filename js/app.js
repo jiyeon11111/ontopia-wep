@@ -32,7 +32,7 @@ function applyAssets(root = document) {
 const EMPTY_HTML = `
   <div class="empty">
     <img src="${ASSETS.scenes.empty}" alt="">
-    <div><b>학교를 고르면 보내는 길이 여기에 나와요</b><p>우체국까지 거리와 학교 위치(도시·농어촌)를 보고 상자 우체통 또는 단체 모바일 엽서를 골라 드려요.</p></div>
+    <div><b>학교를 고르면 보내는 길이 여기에 나와요</b><p>우체통까지 거리와 학교 위치(도시·농어촌)를 보고 상자 우체통 또는 단체 모바일 엽서를 골라 드려요.</p></div>
   </div>`;
 
 // ---------- 단계 이동 ----------
@@ -65,14 +65,14 @@ function go(n) {
 }
 
 // ---------- 학교 데이터 ----------
-const routeOf = s => (s.area !== '동' && s.dist > FAR_METERS ? 'post' : 'box');
+const routeOf = s => (s.area !== '동' && s.box > FAR_METERS ? 'post' : 'box');
 
 async function loadSchools() {
   try {
     const res = await fetch(DATA_URL);
     if (!res.ok) throw new Error(res.status);
     const rows = await res.json();
-    state.schools = rows.map(r => ({ name: r[0], sido: r[1], sigungu: r[2], area: r[3], po: r[4], dist: r[5] }));
+    state.schools = rows.map(r => ({ name: r[0], sido: r[1], sigungu: r[2], area: r[3], po: r[4], dist: r[5], box: r[6], boxAddr: r[7] }));
   } catch (e) {
     const el = $('data-error');
     el.hidden = false;
@@ -118,14 +118,14 @@ function setupSearch() {
 function selectSchool(s) {
   state.school = s;
   state.application = null;
-  const rural = s.area !== '동', far = s.dist > FAR_METERS, rt = routeOf(s);
-  const pct = Math.min(100, (s.dist / (FAR_METERS * 3)) * 100);
+  const rural = s.area !== '동', far = s.box > FAR_METERS, rt = routeOf(s);
+  const pct = Math.min(100, (s.box / (FAR_METERS * 3)) * 100);
   const why = rt === 'post'
-    ? '우체국까지 아이 걸음으로 30분이 넘어요. 반 전체 편지 사진을 한 번에 접수하면 엽서로 인쇄해 배달해요.'
-    : rural ? '우체국이 2km 안에 있어요. 학교에 상자 우체통을 두고 모아서 보내요.'
-            : '우체국은 가깝지만 직접 보내 볼 기회가 적어요. 학교 안 상자 우체통으로 보내는 습관을 만들어요.';
-  const group = rt === 'post' ? `농어촌 중 우체국 2km 밖 ${STATS.ruralFar.toLocaleString()}곳에 해당`
-    : rural ? `농어촌 중 우체국 2km 안 ${STATS.ruralNear.toLocaleString()}곳에 해당`
+    ? '가장 가까운 우체통까지 아이 걸음으로 30분이 넘어요. 반 전체 편지 사진을 한 번에 접수하면 엽서로 인쇄해 배달해요.'
+    : rural ? '우체통이 2km 안에 있어요. 학교에 상자 우체통을 두고 모아서 보내요.'
+            : '우체통은 가깝지만 직접 보내 볼 기회가 적어요. 학교 안 상자 우체통으로 보내는 습관을 만들어요.';
+  const group = rt === 'post' ? `농어촌 중 우체통 2km 밖 ${STATS.ruralFar.toLocaleString()}곳에 해당`
+    : rural ? `농어촌 중 우체통 2km 안 ${STATS.ruralNear.toLocaleString()}곳에 해당`
             : `전국 도시 학교 ${STATS.city.toLocaleString()}곳에 해당`;
   $('school-result').innerHTML = `
     <div class="result">
@@ -142,13 +142,14 @@ function selectSchool(s) {
         <span class="school-card__check" aria-hidden="true"><svg><use href="#i-check"/></svg></span>
       </div>
       <div class="card dist-card">
-        <div class="dist-card__head"><svg><use href="#i-pin"/></svg><span><b>가장 가까운 우체국까지</b><small>아이 걸음 약 ${walkMin(s.dist)}분</small></span><span class="distance">${km(s.dist)}</span></div>
+        <div class="dist-card__head"><svg><use href="#i-pin"/></svg><span><b>가장 가까운 우체통까지</b><small>아이 걸음 약 ${walkMin(s.box)}분</small></span><span class="distance">${km(s.box)}</span></div>
         <div class="slider" aria-hidden="true">
           <span class="slider__fill" style="width:${pct}%;background:${far ? 'var(--color-rural)' : 'var(--color-mint-strong)'}"></span>
           <span class="slider__knob" style="left:${pct}%"></span>
           <span class="slider__flag"></span>
         </div>
         <div class="slider__ruler"><span class="slider__badge">2km · 30분</span></div>
+        <p class="dist-card__addr">${esc(s.boxAddr)}</p>
       </div>
       <div class="card route ${rt === 'post' ? 'route--post' : 'route--box'}">
         <img class="route__map" src="${ASSETS.scenes.routeMap}" alt="">

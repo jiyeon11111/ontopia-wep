@@ -11,7 +11,7 @@
 | `index.html` | 교사·사서 | 1 학교 찾기 → 2 패키지 구성 → 3 발송 준비 → 4 신청 완료 |
 | `guardian.html` | 보호자 | 가정통신문 QR로 들어와 편지 받을 분 주소 입력 |
 
-발송 방법은 학교를 고르면 자동으로 정해집니다. 읍·면 학교이면서 가장 가까운 우체국이 2km 넘게 떨어져 있으면 단체 모바일 엽서(778곳)로 정해지고, 나머지(5,508곳)는 모아 보내는 상자 우체통으로 정해집니다.
+발송 방법은 학교를 고르면 자동으로 정해집니다. 읍·면 학교이면서 가장 가까운 우체통이 2km 넘게 떨어져 있으면 단체 모바일 엽서(629곳)로 정해지고, 나머지(5,657곳)는 모아 보내는 상자 우체통으로 정해집니다.
 
 ## 로컬에서 실행
 
@@ -54,12 +54,13 @@ python3 -m http.server 8000
 
 ## 데이터
 
-`data/schools.json` 한 줄 = `[학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 거리(m)]`, 6,286곳.
+`data/schools.json` 한 줄 = `[학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 우체국 거리(m), 우체통 거리(m), 우체통 주소]`, 6,286곳. 발송 경로는 우체통 거리로 정합니다.
 
-- 출처: 교육부 학교위치(2026.10), 우정사업본부 우체국 현황(2026.8, 카카오 지도 API로 좌표 변환)
+- 출처: 교육부 학교위치(2026.10), 우정사업본부 우체국 현황(2026.8, 카카오 지도 API로 좌표 변환), 우정사업본부 우체국 찾기 API 우체통 8,059곳(2026.11)
 - 군사·구내 우체국과 운영 중지 우체국은 제외(분석 대상 3,235곳)
 - 거리는 직선거리라 실제 걷는 거리는 더 깁니다.
-- 다시 만들기: `python3 scripts/build_schools.py 학교.csv 우체국_좌표.csv data/schools.json` (pandas, numpy, scikit-learn 필요)
+- 우체통 받기: `scripts/get_postboxes.py` (서비스키는 `KOREAPOST_KEY` 환경변수로만, 파일·깃에 적지 않기)
+- 다시 만들기: `python3 scripts/build_schools.py 학교.csv 우체국_좌표.csv postboxes.csv data/schools.json` (pandas, numpy, scikit-learn 필요)
 
 ## 폴더
 
@@ -75,6 +76,7 @@ ontopia-web/
 ├── js/guardian.js      보호자 화면 동작
 ├── data/schools.json   전국 초등학교 6,286곳
 ├── assets/             캐릭터·첫 화면 그림
+├── scripts/get_postboxes.py
 └── scripts/build_schools.py
 ```
 

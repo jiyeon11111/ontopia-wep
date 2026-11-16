@@ -35,12 +35,12 @@ export const ASSETS = {
   },
 };
 
-// 학교에서 가장 가까운 우체국까지 이 거리(m)를 넘고 읍·면이면 단체 모바일 엽서로 배정한다.
+// 학교에서 가장 가까운 우체통까지 이 거리(m)를 넘고 읍·면이면 단체 모바일 엽서로 배정한다.
 export const FAR_METERS = 2000;
 // 아이 걸음 기준: 시속 4km = 1km에 15분
 export const MIN_PER_KM = 15;
 
-export const STATS = { totalSchools: 6286, city: 3779, ruralNear: 1729, ruralFar: 778 };
+export const STATS = { totalSchools: 6286, city: 3779, ruralNear: 1878, ruralFar: 629 };
 
 export const DATA_URL = 'data/schools.json';
-// schools.json 한 줄 = [학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 거리(m)]
+// schools.json 한 줄 = [학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 우체국 거리(m), 우체통 거리(m), 우체통 주소]

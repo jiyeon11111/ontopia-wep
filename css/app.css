@@ -199,6 +199,7 @@ body:not(.is-intro) .intro { display: none; }
 .dist-card__head b { display: block; font-size: var(--text-sm); }
 .dist-card__head small { display: block; font-size: var(--text-xs); color: var(--color-text-muted); }
 .dist-card__head span:first-of-type { flex: 1; }
+.dist-card__addr { margin: 0; font-size: var(--text-xs); color: var(--color-text-muted); }
 .distance { font-size: 32px; font-weight: 900; line-height: 1; color: var(--color-title); font-variant-numeric: tabular-nums; }
 .slider { position: relative; height: 14px; border-radius: 7px; background: #ece2cf; box-shadow: var(--shadow-inset); margin: 34px 12px 0 4px; }
 .slider__fill { position: absolute; inset: 0 auto 0 0; border-radius: 7px; }

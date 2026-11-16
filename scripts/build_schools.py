@@ -1,11 +1,12 @@
 """
 data/schools.json 만들기.
 입력: 교육부 학교위치 CSV(학교명·도로명주소·위도·경도·학교급·운영상태),
-      우정사업본부 우체국 현황에 좌표를 붙인 CSV(우체국명·주소(도로명)·위도·경도).
-출력: [학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 거리(m)] 목록.
-실행: python3 scripts/build_schools.py 학교.csv 우체국_좌표.csv data/schools.json
+      우정사업본부 우체국 현황에 좌표를 붙인 CSV(우체국명·주소(도로명)·위도·경도),
+      scripts/get_postboxes.py로 받은 우체통 CSV(addr·lat·lon).
+출력: [학교명, 시도, 시군구, 권역(동/읍/면), 가장 가까운 우체국, 우체국 거리(m), 우체통 거리(m), 우체통 주소] 목록.
+실행: python3 scripts/build_schools.py 학교.csv 우체국_좌표.csv postboxes.csv data/schools.json
 """
-import sys, json
+import sys, json, math, re
 import numpy as np, pandas as pd
 from sklearn.neighbors import BallTree
 
@@ -21,7 +22,7 @@ def area_of(addr):
         if tok.endswith('면'): return '면'
     return '동'
 
-def main(school_csv, po_csv, out):
+def main(school_csv, po_csv, box_csv, out):
     s = pd.read_csv(school_csv, encoding='utf-8-sig', dtype=str)
     e = s[(s['학교급구분'] == '초등학교') & (s['운영상태'] == '운영')].copy()
     e[['위도', '경도']] = e[['위도', '경도']].astype(float)
@@ -42,10 +43,18 @@ def main(school_csv, po_csv, out):
     e['dist'] = (d[:, 0] * R).round().astype(int)
     e['po'] = ok.loc[i[:, 0], '우체국명'].values
 
-    rows = [[r.학교명, SIDO.get(r.시도, r.시도), r.시군구 if isinstance(r.시군구, str) else '', r.권역, r.po, int(r.dist)]
-            for r in e.itertuples()]
+    b = pd.read_csv(box_csv, encoding='utf-8-sig').dropna(subset=['lat', 'lon'])
+    b = b[b['lat'].between(33, 39) & b['lon'].between(124, 132)].reset_index(drop=True)
+    btree = BallTree(np.radians(b[['lat', 'lon']].values), metric='haversine')
+    bd, bi = btree.query(np.radians(e[['위도', '경도']].values), k=1)
+    e['box'] = [math.ceil(x * R) for x in bd[:, 0]]   # 2km 경계에서 분석 수치와 맞도록 올림
+    clean = lambda a: re.sub(r'\s*\([^)]*\)\s*$', '', re.sub(r',?\s*우체통', '', str(a))).strip()
+    e['boxAddr'] = [clean(a) for a in b.loc[bi[:, 0], 'addr'].values]
+
+    rows = [[r.학교명, SIDO.get(r.시도, r.시도), r.시군구 if isinstance(r.시군구, str) else '', r.권역, r.po, int(r.dist),
+             int(r.box), r.boxAddr] for r in e.itertuples()]
     json.dump(rows, open(out, 'w'), ensure_ascii=False, separators=(',', ':'))
-    print(f'초등학교 {len(rows)}곳, 우체국 {len(ok)}곳 → {out}')
+    print(f'초등학교 {len(rows)}곳, 우체국 {len(ok)}곳, 우체통 {len(b)}곳 → {out}')
 
 if __name__ == '__main__':
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])
